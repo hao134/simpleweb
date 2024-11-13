@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: 'http://54.234.23.98:3001'
+  origin: 'http://98.84.242.113:3001'
 }));
 
 let db;
