@@ -10,6 +10,7 @@ app.use(cors({
   origin: 'http://54.234.23.98:3001' 
 }));
 
+// test deploy
 let db;
 
 MongoClient.connect(process.env.MONGODB_URI)
