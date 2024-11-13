@@ -7,39 +7,53 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: 'http://34.205.141.156:3001' 
+  origin: 'http://54.234.23.98:3001'
 }));
 
 let db;
+
+console.log("Attempting to connect to MongoDB...");
 
 MongoClient.connect(process.env.MONGODB_URI)
   .then(client => {
     console.log('Connected to Database');
     db = client.db('testdb');
 
-    // 檢查集合是否為空並插入測試數據
-    db.collection('data').countDocuments((err, count) => {
-      if (err) {
-        console.error("Error counting documents:", err);
-      } else if (count === 0) {
-        db.collection('data').insertMany([
-          { name: "Sample Item 1", value: 123 },
-          { name: "Sample Item 2", value: 456 }
-        ])
-        .then(() => console.log("Inserted initial test data"))
-        .catch(error => console.error("Error inserting test data:", error));
+    // 嘗試直接插入測試數據，並捕獲任何錯誤
+    console.log("Inserting test data...");
+    db.collection('data').insertMany([
+      { name: "Sample Item 1", value: 123 },
+      { name: "Sample Item 2", value: 456 }
+    ])
+    .then(() => console.log("Inserted initial test data"))
+    .catch(error => {
+      if (error.code === 11000) {
+        console.log("Test data already exists, skipping insertion.");
+      } else {
+        console.error("Error inserting test data:", error);
       }
     });
   })
-  .catch(error => console.error(error));
+  .catch(error => {
+    console.error("Error connecting to MongoDB:", error);
+  });
 
 app.use(express.json());
 
 app.get('/api/data', async (req, res) => {
-  const data = await db.collection('data').find().toArray();
-  res.json(data);
+  console.log("Received request for /api/data");
+
+  try {
+    const data = await db.collection('data').find({}).toArray();
+    console.log("Data fetched from MongoDB:", data);
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching data from MongoDB:", error);
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
 });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+

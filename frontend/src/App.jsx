@@ -4,7 +4,7 @@ function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('http://34.205.141.156:3000/api/data')  // 修改為你的後端 API 路徑
+    fetch('http://54.234.23.98:3000/api/data')  // 修改為你的後端 API 路徑
       .then(response => response.json())
       .then(data => setData(data))
       .catch(error => console.error('Error fetching data:', error));
