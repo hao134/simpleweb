@@ -42,7 +42,7 @@ jobs:
         "
     - name: Update MongoDB with JSON data
       env:
-        MONGO_URI: ${{ secrets.MONGODB_URI }}
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
       run: |
         python -m pip install pymongo # 安裝pymongo
         python update_mongodb.py      # 執行更新腳本

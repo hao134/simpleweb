@@ -4,7 +4,7 @@ from pymongo import MongoClient
 
 # 從環境變數中讀取 MongoDB URI
 mongodb_uri = os.getenv("MONGODB_URI")
-print("MongoDB URI:", mongodb_uri)  # 確認 URI 是否正確
+#print("MongoDB URI:", mongodb_uri)  # 確認 URI 是否正確
 client = MongoClient(mongodb_uri)
 
 try:
