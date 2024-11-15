@@ -6,3 +6,4 @@
 * update mongodburi
 * update mongodburi again
 * check mongodb appuser is work or not?
+* remove w=majority in mongodb uri
