@@ -1,16 +1,16 @@
 [
   {
-    "timestamp": "2024-11-13T15:00:00Z",
-    "location": "Warehouse 2",
-    "temperature": 23.9
+    "timestamp": "2024-11-13T16:00:00Z",
+    "location": "Warehouse 3",
+    "temperature": 24.5
   },
   {
-    "timestamp": "2024-11-13T15:00:00Z",
+    "timestamp": "2024-11-13T16:00:00Z",
     "location": "Warehouse 2",
-    "temperature": 198
+    "temperature": 111
   },
   {
-    "timestamp": "2024-11-13T15:00:00Z",
+    "timestamp": "2024-11-13T16:00:00Z",
     "location": "",
     "temperature": 221
   }
