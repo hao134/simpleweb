@@ -1,0 +1,15 @@
+[
+    {
+      "date": "2024-11-13",
+      "product": "Lubricant A",
+      "sales": 100,
+      "price": 50.0
+    },
+    {
+      "date": "2024-11-14",
+      "product": "Lubricant B",
+      "sales": 150,
+      "price": 60.0
+    }
+  ]
+  
