@@ -7,3 +7,4 @@
 * update mongodburi again
 * check mongodb appuser is work or not?
 * remove w=majority in mongodb uri
+* add new data test artifact will renew or not
