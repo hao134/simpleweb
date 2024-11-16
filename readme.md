@@ -11,4 +11,5 @@
 * env adjust
 
 # 1116
-* adjust secret variable
+* adjust secret variable for mongouri
+* adjust secret variable for mongouri again 
