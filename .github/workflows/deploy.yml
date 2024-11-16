@@ -28,16 +28,17 @@ jobs:
         PUBLICIP: ${{ secrets.PUBLICIP }}
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
+          echo 'REACT_APP_PUBLIC_IP=${PUBLICIP}' >> ~/simpleweb/frontend/.env.local &&
           echo 'MONGODB_URI=${MONGODB_URI}' > ~/simpleweb/.env &&
           echo 'PORT=3000' >> ~/simpleweb/.env &&
           echo 'PUBLICIP=${PUBLICIP}' >> ~/simpleweb/.env
         "
-    - name: Build React App with PUBLICIP
-      run: |
-        echo "REACT_APP_PUBLIC_IP=${{ secrets.PUBLICIP }}" >> ~/simpleweb/frontend/.env.local &&
-        cd ~/simpleweb/frontend &&
-        npm install &&
-        num run build
+    # - name: Build React App with PUBLICIP
+    #   run: |
+    #     echo "REACT_APP_PUBLIC_IP=${{ secrets.PUBLICIP }}" >> ~/simpleweb/frontend/.env.local &&
+    #     cd ~/simpleweb/frontend &&
+    #     npm install &&
+    #     num run build
 
     - name: Deploy to EC2
       env:
@@ -53,6 +54,8 @@ jobs:
 
           # 啟動前端應用
           cd frontend &&
+          npm install &&
+          npm run build &&
           pm2 serve dist 3001 --name frontend || pm2 restart frontend
         "
     # - name: Delete all data from MongoDB
