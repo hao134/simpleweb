@@ -13,3 +13,4 @@
 # 1116
 * adjust secret variable for mongouri
 * adjust secret variable for mongouri again 
+* adjust secret variable for mongouriatec2
