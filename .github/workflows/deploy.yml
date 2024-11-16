@@ -28,10 +28,10 @@ jobs:
         PUBLICIP: ${{ secrets.PUBLICIP }}
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
+          echo 'REACT_APP_PUBLIC_IP=${PUBLICIP}' > ~/simpleweb/frontend/.env
           echo 'MONGODB_URI=${MONGODB_URI}' > ~/simpleweb/.env &&
           echo 'PORT=3000' >> ~/simpleweb/.env &&
           echo 'PUBLICIP=${PUBLICIP}' >> ~/simpleweb/.env
-          echo 'REACT_APP_PUBLIC_IP=${PUBLICIP}' >> ~/simpleweb/.env
         "
     # - name: Build React App with PUBLICIP
     #   run: |
