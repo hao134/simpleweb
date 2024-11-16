@@ -47,6 +47,7 @@ jobs:
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
           cd ~/simpleweb &&
+          git reset --hard HEAD &&  # 清除所有本地變更
           git pull origin main &&
 
           # 後端啟動
@@ -54,9 +55,13 @@ jobs:
 
           # 啟動前端應用
           cd frontend &&
+          rm -rf dist &&  # 清除舊的靜態文件
           npm install &&
           npm run build &&
-          pm2 serve dist 3001 --name frontend || pm2 restart frontend
+
+          # 重新啟動前端服務
+          pm2 delete frontend || true &&
+          pm2 serve dist 3001 --name frontend
         "
     # - name: Delete all data from MongoDB
     #   env:
