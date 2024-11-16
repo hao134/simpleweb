@@ -19,6 +19,19 @@ jobs:
         echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/deploy_key
         chmod 600 ~/.ssh/deploy_key
         ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
+    
+    - name: Create .env file on EC2
+      env:
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        MONGODB_URI: ${{ secrets.MONGODB_URIATEC2 }}
+        PUBLICIP: ${{ secrets.PUBLICIP }}
+      run: |
+        ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
+          echo 'MONGODB_URI=${MONGODB_URI}' > ~/simpleweb/.env &&
+          echo 'PORT=3000' >> ~/simpleweb/.env &&
+          echo 'PUBLICIP=${PUBLICIP}' >> ~/simpleweb/.env
+        "
 
     - name: Deploy to EC2
       env:
