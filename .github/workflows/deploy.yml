@@ -31,7 +31,7 @@ jobs:
           echo 'MONGODB_URI=${MONGODB_URI}' > ~/simpleweb/.env &&
           echo 'PORT=3000' >> ~/simpleweb/.env &&
           echo 'PUBLICIP=${PUBLICIP}' >> ~/simpleweb/.env
-          echo 'REACT_APP_PUBLIC_I=${PUBLICIP}' >> ~/simpleweb/.env
+          echo 'REACT_APP_PUBLIC_IP=${PUBLICIP}' >> ~/simpleweb/.env
         "
     # - name: Build React App with PUBLICIP
     #   run: |
