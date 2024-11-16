@@ -47,6 +47,7 @@ jobs:
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
           cd ~/simpleweb &&
+          git reset --hard HEAD &&  # 清除所有本地變更
           git pull origin main &&
 
           # 後端啟動
