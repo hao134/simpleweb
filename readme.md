@@ -9,3 +9,6 @@
 * remove w=majority in mongodb uri
 * add new data test artifact will renew or not
 * env adjust
+
+# 1116
+* adjust secret variable
