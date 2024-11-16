@@ -28,7 +28,7 @@ jobs:
         PUBLICIP: ${{ secrets.PUBLICIP }}
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
-          echo 'REACT_APP_PUBLIC_IP=${PUBLICIP}' >> ~/simpleweb/frontend/.env.local &&
+          echo 'REACT_APP_PUBLIC_IP=${PUBLICIP}' > ~/simpleweb/frontend/.env.local &&
           echo 'MONGODB_URI=${MONGODB_URI}' > ~/simpleweb/.env &&
           echo 'PORT=3000' >> ~/simpleweb/.env &&
           echo 'PUBLICIP=${PUBLICIP}' >> ~/simpleweb/.env
@@ -47,7 +47,6 @@ jobs:
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
           cd ~/simpleweb &&
-          git reset --hard HEAD &&  # 清除所有本地變更
           git pull origin main &&
 
           # 後端啟動
