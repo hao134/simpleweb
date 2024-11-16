@@ -53,30 +53,30 @@ jobs:
           # 啟動前端應用
           pm2 serve dist 3001 --name frontend || pm2 restart frontend
         "
-    - name: Delete all data from MongoDB
-      env:
-        MONGODB_URI: ${{ secrets.MONGODB_URI }}
-      run: |
-        python -m pip install pymongo #安裝 pymongo
-        python delete_all_data.py
-    
-    - name: Save delete log file to EC2
-      env:
-        EC2_USER: ${{ secrets.EC2_USER }}
-        EC2_HOST: ${{ secrets.EC2_HOST }}
-      run:
-        scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
-
-    # - name: Update MongoDB with JSON data
+    # - name: Delete all data from MongoDB
     #   env:
     #     MONGODB_URI: ${{ secrets.MONGODB_URI }}
     #   run: |
-    #     python -m pip install pymongo # 安裝pymongo
-    #     python update_mongodb.py      # 執行更新腳本
+    #     python -m pip install pymongo #安裝 pymongo
+    #     python delete_all_data.py
     
-    # - name: Save log file to EC2
+    # - name: Save delete log file to EC2
     #   env:
     #     EC2_USER: ${{ secrets.EC2_USER }}
     #     EC2_HOST: ${{ secrets.EC2_HOST }}
-    #   run: |
-    #     scp -i ~/.ssh/deploy_key data_insertion.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
+    #   run:
+    #     scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
+
+    - name: Update MongoDB with JSON data
+      env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      run: |
+        python -m pip install pymongo # 安裝pymongo
+        python update_mongodb.py      # 執行更新腳本
+    
+    - name: Save log file to EC2
+      env:
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+      run: |
+        scp -i ~/.ssh/deploy_key data_insertion.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
