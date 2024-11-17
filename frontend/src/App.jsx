@@ -6,7 +6,7 @@ function App() {
 
   // 從環境變量中讀取 API基礎 URL
   //const API_BASE_URL = `http://${process.env.REACT_APP_PUBLIC_IP}:3000/api/temperature_data`;
-  const API_BASE_URL = "https://98.84.242.113:3000/api/temperature_data";
+  const API_BASE_URL = "https://98.84.242.113/api/temperature_data";
   // test
   //console.log("Environment Variable:", process.env.REACT_APP_PUBLIC_IP);
 
