@@ -35,7 +35,7 @@ function App() {
         label: "Temperature (°C)", // 數據集標籤
         data: data.map((item) => item.temperature), // Y軸數據：溫度
         borderColor: "rgba(75, 192, 192, 1)",
-        backgrondColor: "rgba(75, 192, 192, 0.2)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderWidth: 1,
       }
     ]
