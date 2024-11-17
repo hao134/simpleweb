@@ -17,3 +17,6 @@
 * test update new rule
 * create some file on frontend
 * change env
+
+# 1117
+* change director權限問題
