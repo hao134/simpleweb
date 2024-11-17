@@ -20,3 +20,4 @@
 
 # 1117
 * change director權限問題
+* set nginx
