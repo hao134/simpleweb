@@ -1,4 +1,6 @@
+import { response } from "express";
 import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 
 function App() {
   const [data, setData] = useState([]);
@@ -25,23 +27,52 @@ function App() {
       });
   }, [API_BASE_URL]);
 
+  //準備 Chart.js 數據
+  const chartData = {
+    labels: data.map((item) => item.timestamp), // X軸標籤：時間戳
+    datasets: [
+      {
+        label: "Temperature (°C)", // 數據集標籤
+        data: data.map((item) => item.temperature), // Y軸數據：溫度
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgrondColor: "rgba(75, 192, 192, 0.2)",
+        borderWidth: 1,
+      }
+    ]
+  }
+
+  // Chart.js的配置選項
+  const chartOptions = {
+    responsive: true,
+    plugins:{
+      legend:{
+        display: true,
+        position: "top",
+      },
+    },
+    scales:{
+      x: {
+        title: {
+          display: true,
+          text: "Timestamp",
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Temperature (°C)",
+        },
+        beginAtZero: true,
+      },
+    },
+  };
+
   return (
     <div>
-      <h1>Temperature Data</h1>
+      <h1>Temperature Data Visulization</h1>
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
       {data.length > 0 ? (
-        <>
-          <h2>Total Records: {data.length}</h2>
-          <ul>
-            {data.map((item, index) => (
-              <li key={index}>
-                <strong>Timestamp:</strong> {item.timestamp} |
-                <strong>Location:</strong> {item.location} |
-                <strong>Temperature:</strong> {item.temperature}°C
-              </li>
-            ))}
-          </ul>
-        </>
+        <Line data={chartData} options={chartOptions} />
       ) : (
         <p>Loading data or no records found...</p>
       )}
