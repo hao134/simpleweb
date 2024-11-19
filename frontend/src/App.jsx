@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-//import moment from "moment"; // 引入 moment.js
+import moment from "moment"; // 引入 moment.js
 
 ChartJS.register(
   CategoryScale,
@@ -61,7 +61,7 @@ function App() {
       label: warehouse,
       data: filteredData
         .filter((item) => item.location === warehouse)
-        .map((item) => parseFloat(item.temerature)), //確保溫度為數字
+        .map((item) => parseFloat(item.temperature)), //確保溫度為數字
       borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
         Math.random() * 255
       )}, ${Math.floor(Math.random() * 255)}, 1)`, //隨機顏色
@@ -69,14 +69,14 @@ function App() {
 
     setChartData({
       labels: filteredData.map((item) =>
-        //moment(item.timestamp).format("YYYY-MM-DD HH:mm")
-      new Date(item.timestamp).toLocaleString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
+      moment(item.timestamp).format("YYYY-MM-DD HH:mm")
+      // new Date(item.timestamp).toLocaleString("en-US", {
+      //   year: "numeric",
+      //   month: "short",
+      //   day: "numeric",
+      //   hour: "2-digit",
+      //   minute: "2-digit",
+      // })
       ), //格式化日期顯示
       datasets,
     });
@@ -154,9 +154,9 @@ function App() {
                   display: true,
                   text: "Temperature (°C)",
                 },
-                min: 20,
-                max: 30,
-                //beginAtZero: true,
+                // min: 20,
+                // max: 30,
+                beginAtZero: true,
               },
             },
           }}
