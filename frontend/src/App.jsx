@@ -52,6 +52,8 @@ function App() {
         selectedWarehouse === "All" || item.location === selectedWarehouse
       return inDateRange && matchesWarehouse 
     });
+    console.log("Filtered Data:", filteredData);
+
 
     const warehouses = Array.from(new Set(filteredData.map((item) => item.location)));
 
