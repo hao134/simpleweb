@@ -70,7 +70,13 @@ function App() {
     setChartData({
       labels: filteredData.map((item) =>
         //moment(item.timestamp).format("YYYY-MM-DD HH:mm")
-        item.timestamp
+      new Date(item.timestamp).toLocaleString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
       ), //格式化日期顯示
       datasets,
     });
