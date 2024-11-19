@@ -10,7 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import moment from "moment"; // 引入 moment.js
+//import moment from "moment"; // 引入 moment.js
 
 ChartJS.register(
   CategoryScale,
@@ -69,7 +69,8 @@ function App() {
 
     setChartData({
       labels: filteredData.map((item) =>
-        moment(item.timestamp).format("YYYY-MM-DD HH:mm")
+        //moment(item.timestamp).format("YYYY-MM-DD HH:mm")
+        item.timestamp
       ), //格式化日期顯示
       datasets,
     });
