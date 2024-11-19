@@ -154,7 +154,9 @@ function App() {
                   display: true,
                   text: "Temperature (°C)",
                 },
-                beginAtZero: true,
+                min: 20,
+                max: 30,
+                //beginAtZero: true,
               },
             },
           }}
