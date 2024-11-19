@@ -61,7 +61,7 @@ function App() {
       label: warehouse,
       data: filteredData
         .filter((item) => item.location === warehouse)
-        .map((item) => item.temerature),
+        .map((item) => parseFloat(item.temerature)), //確保溫度為數字
       borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
         Math.random() * 255
       )}, ${Math.floor(Math.random() * 255)}, 1)`, //隨機顏色
