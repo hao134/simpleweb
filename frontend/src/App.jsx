@@ -43,12 +43,6 @@ function App() {
 
   // 根據篩選條件更新圖表數據
   useEffect(() => {
-    // 提取所有數據中的唯一時間戳，並排序
-    const uniqueTimestamps = Array.from(
-      new Set(data.map((item) => item.timestamp)) 
-    ).sort((a, b) => new Date(a) - new Date(b));
-
-    // 過濾數據
     const filteredData = data.filter((item) => {
       const date = new Date(item.timestamp);
       const inDateRange = 
@@ -63,25 +57,15 @@ function App() {
 
     const warehouses = Array.from(new Set(filteredData.map((item) => item.location)));
 
-    // 根據統一的時間軸對數據進行對齊
-    const datasets = warehouses.map((warehouse) => {
-      const warehouseData = filteredData.filter(
-        (item) => item.location === warehouse
-      );
-      
-      //對齊時間軸
-      const dataOnUnifiedAxis = uniqueTimestamps.map((timestamp) => {
-        const record = warehouseData.find((item) => item.timestamp === timestamp);
-        return record ? parseFloat(record.temperature) : null; // 用 null 填充缺失數據
-      });
-      return {
-        label: warehouse,
-        data: dataOnUnifiedAxis,
-        borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
+    const datasets = warehouses.map((warehouse) => ({
+      label: warehouse,
+      data: filteredData
+        .filter((item) => item.location === warehouse)
+        .map((item) => parseFloat(item.temperature)), //確保溫度為數字
+      borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
         Math.random() * 255
-        )}, ${Math.floor(Math.random() * 255)}, 1)`, //隨機顏色
-      };
-    });
+      )}, ${Math.floor(Math.random() * 255)}, 1)`, //隨機顏色
+    }));
 
     setChartData({
       labels: filteredData.map((item) =>
