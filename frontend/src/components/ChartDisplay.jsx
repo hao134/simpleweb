@@ -1,3 +1,4 @@
+import { Line } from "react-chartjs-2";
 const ChartDisplay = ({ title, chartData }) => {
     return (
       <div>
