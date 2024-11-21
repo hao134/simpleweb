@@ -23,11 +23,12 @@ ChartJS.register(
 );
 
 function App() {
-  const [data, setData] = useState([])
-  const [chartData, setChartData] = useState(null);
+  const [data, setData] = useState([]);
+  const [allChartData, setAllChartData] = useState(null); // 用於整合圖表
+  const [singleChartData, setSingleChartData] = useState(null); // 用於單倉庫篩選圖表
   const [error, setError] = useState(null);
   const [selectedWarehouse, setSelectedWarehouse] = useState("All");
-  const [dateRange, setDateRange] = useState({start: "", end: "" })
+  const [dateRange, setDateRange] = useState({ start: "", end: "" });
 
   const API_BASE_URL = "https://98.84.242.113/api/temperature_data";
 
@@ -41,54 +42,77 @@ function App() {
       });
   }, []);
 
-  // 根據篩選條件更新圖表數據
+  // 上方圖表：所有倉庫數據整合
   useEffect(() => {
-    const filteredData = data.filter((item) => {
-      const date = new Date(item.timestamp);
-      const inDateRange = 
-        (!dateRange.start || date >= new Date(dateRange.start)) &&
-        (!dateRange.end || date <= new Date(dateRange.end));
-      const matchesWarehouse = 
-        selectedWarehouse === "All" || item.location === selectedWarehouse
-      return inDateRange && matchesWarehouse 
-    });
-    console.log("Filtered Data:", filteredData);
+    const allTimestamps = Array.from(new Set(data.map((item) => item.timestamp)))
+      .sort((a, b) => new Date(a) - new Date(b)); // 確保統一時間軸
 
-
-    const warehouses = Array.from(new Set(filteredData.map((item) => item.location)));
+    const warehouses = Array.from(new Set(data.map((item) => item.location)));
 
     const datasets = warehouses.map((warehouse) => ({
       label: warehouse,
-      data: filteredData
-        .filter((item) => item.location === warehouse)
-        .map((item) => parseFloat(item.temperature)), //確保溫度為數字
+      data: allTimestamps.map((timestamp) => {
+        const match = data.find(
+          (item) => item.location === warehouse && item.timestamp === timestamp
+        );
+        return match ? parseFloat(match.temperature) : null; // 填充數據或 null
+      }),
       borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
         Math.random() * 255
-      )}, ${Math.floor(Math.random() * 255)}, 1)`, //隨機顏色
+      )}, ${Math.floor(Math.random() * 255)}, 1)`, // 隨機顏色
     }));
 
-    setChartData({
-      labels: filteredData.map((item) =>
-      moment(item.timestamp).format("YYYY-MM-DD HH:mm")
-      // new Date(item.timestamp).toLocaleString("en-US", {
-      //   year: "numeric",
-      //   month: "short",
-      //   day: "numeric",
-      //   hour: "2-digit",
-      //   minute: "2-digit",
-      // })
-      ), //格式化日期顯示
+    setAllChartData({
+      labels: allTimestamps.map((timestamp) =>
+        moment(timestamp).format("YYYY-MM-DD HH:mm")
+      ),
       datasets,
+    });
+  }, [data]);
+
+  // 下方圖表：單倉庫篩選
+  useEffect(() => {
+    const filteredData = data.filter((item) => {
+      const date = new Date(item.timestamp);
+      const inDateRange =
+        (!dateRange.start || date >= new Date(dateRange.start)) &&
+        (!dateRange.end || date <= new Date(dateRange.end));
+      const matchesWarehouse =
+        selectedWarehouse === "All" || item.location === selectedWarehouse;
+      return inDateRange && matchesWarehouse;
+    });
+
+    const filteredTimestamps = Array.from(
+      new Set(filteredData.map((item) => item.timestamp))
+    ).sort((a, b) => new Date(a) - new Date(b));
+
+    const singleDataset = filteredTimestamps.map((timestamp) => {
+      const match = filteredData.find((item) => item.timestamp === timestamp);
+      return match ? parseFloat(match.temperature) : null;
+    });
+
+    setSingleChartData({
+      labels: filteredTimestamps.map((timestamp) =>
+        moment(timestamp).format("YYYY-MM-DD HH:mm")
+      ),
+      datasets: [
+        {
+          label: selectedWarehouse === "All" ? "All Warehouses" : selectedWarehouse,
+          data: singleDataset,
+          borderColor: "rgba(75, 192, 192, 1)",
+        },
+      ],
     });
   }, [data, selectedWarehouse, dateRange]);
 
   const handleDateChange = (e) => {
-    setDateRange({ ...dateRange, [e.target.name]: e.target.value })
-  }
+    setDateRange({ ...dateRange, [e.target.name]: e.target.value });
+  };
 
   const handleWarehouseChange = (e) => {
     setSelectedWarehouse(e.target.value);
   };
+
   if (error) {
     return <p style={{ color: "red" }}>Error: {error}</p>;
   }
@@ -101,7 +125,7 @@ function App() {
       <div>
         <label>
           Start Date:
-          <input 
+          <input
             type="date"
             name="start"
             value={dateRange.start}
@@ -126,43 +150,84 @@ function App() {
                 {warehouse}
               </option>
             ))}
-
           </select>
         </label>
       </div>
-      {/* 圖表 */}
-      {chartData ? (
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-            plugins: {
-              legend: {
-                display: true,
-                position: "top",
-              },
-            },
-            scales: {
-              x: {
-                title: {
+
+      {/* 上方圖表 */}
+      {allChartData ? (
+        <div>
+          <h2>All Warehouses</h2>
+          <Line
+            data={allChartData}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
                   display: true,
-                  text: "Timestamp",
+                  position: "top",
                 },
               },
-              y: {
-                title: {
-                  display: true,
-                  text: "Temperature (°C)",
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: "Timestamp",
+                  },
                 },
-                // min: 20,
-                // max: 30,
-                beginAtZero: true,
+                y: {
+                  title: {
+                    display: true,
+                    text: "Temperature (°C)",
+                  },
+                  beginAtZero: true,
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
       ) : (
-        <p>Loading...</p>
+        <p>Loading all warehouse data...</p>
+      )}
+
+      {/* 下方圖表 */}
+      {singleChartData ? (
+        <div>
+          <h2>
+            {selectedWarehouse === "All"
+              ? "Filtered Data for All Warehouses"
+              : `Filtered Data for ${selectedWarehouse}`}
+          </h2>
+          <Line
+            data={singleChartData}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: true,
+                  position: "top",
+                },
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: "Timestamp",
+                  },
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: "Temperature (°C)",
+                  },
+                  beginAtZero: true,
+                },
+              },
+            }}
+          />
+        </div>
+      ) : (
+        <p>Loading filtered warehouse data...</p>
       )}
     </div>
   );
