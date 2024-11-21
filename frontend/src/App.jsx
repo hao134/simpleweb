@@ -137,44 +137,14 @@ const App = () => {
       <ChartDisplay title="All Warehouses" chartData={allChartData} />
 
       {/* 下方圖表 */}
-      {singleChartData ? (
-        <div>
-          <h2>
-            {selectedWarehouse === "All"
+      <ChartDisplay 
+          title={
+            selectedWarehouse === "All"
               ? "Filtered Data for All Warehouses"
-              : `Filtered Data for ${selectedWarehouse}`}
-          </h2>
-          <Line
-            data={singleChartData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: true,
-                  position: "top",
-                },
-              },
-              scales: {
-                x: {
-                  title: {
-                    display: true,
-                    text: "Timestamp",
-                  },
-                },
-                y: {
-                  title: {
-                    display: true,
-                    text: "Temperature (°C)",
-                  },
-                  beginAtZero: true,
-                },
-              },
-            }}
-          />
-        </div>
-      ) : (
-        <p>Loading filtered warehouse data...</p>
-      )}
+              : `Filtered Data for ${selectedWarehouse}`
+          }
+          chartData={singleChartData}
+      />
     </div>
   );
 }
