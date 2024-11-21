@@ -11,6 +11,8 @@ import {
   Legend,
 } from "chart.js";
 import moment from "moment"; // 引入 moment.js
+import ChartDisplay from "./components/ChartDisplay";
+import FilterControls from "./components/FilterControls";
 
 ChartJS.register(
   CategoryScale,
@@ -22,7 +24,7 @@ ChartJS.register(
   Legend
 );
 
-function App() {
+const App = () => {
   const [data, setData] = useState([]);
   const [allChartData, setAllChartData] = useState(null); // 用於整合圖表
   const [singleChartData, setSingleChartData] = useState(null); // 用於單倉庫篩選圖表
@@ -116,79 +118,23 @@ function App() {
   if (error) {
     return <p style={{ color: "red" }}>Error: {error}</p>;
   }
-
+  
+  const warehouses = Array.from(new Set(data.map((item) => item.location)))
   return (
     <div>
       <h1>Temperature Data Visualization</h1>
 
       {/* 篩選條件 */}
-      <div>
-        <label>
-          Start Date:
-          <input
-            type="date"
-            name="start"
-            value={dateRange.start}
-            onChange={handleDateChange}
-          />
-        </label>
-        <label>
-          End Date:
-          <input
-            type="date"
-            name="end"
-            value={dateRange.end}
-            onChange={handleDateChange}
-          />
-        </label>
-        <label>
-          Warehouse:
-          <select value={selectedWarehouse} onChange={handleWarehouseChange}>
-            <option value="All">All</option>
-            {[...new Set(data.map((item) => item.location))].map((warehouse) => (
-              <option key={warehouse} value={warehouse}>
-                {warehouse}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+      <FilterControls
+        dateRange={dateRange}
+        handleDateChange={handleDateChange}
+        selectedWarehouse={selectedWarehouse}
+        handleWarehouseChange={handleWarehouseChange}
+        warehouses={warehouses}
+      />
 
       {/* 上方圖表 */}
-      {allChartData ? (
-        <div>
-          <h2>All Warehouses</h2>
-          <Line
-            data={allChartData}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: true,
-                  position: "top",
-                },
-              },
-              scales: {
-                x: {
-                  title: {
-                    display: true,
-                    text: "Timestamp",
-                  },
-                },
-                y: {
-                  title: {
-                    display: true,
-                    text: "Temperature (°C)",
-                  },
-                  beginAtZero: true,
-                },
-              },
-            }}
-          />
-        </div>
-      ) : (
-        <p>Loading all warehouse data...</p>
-      )}
+      <ChartDisplay title="All Warehouses" chartData={allChartData} />
 
       {/* 下方圖表 */}
       {singleChartData ? (
