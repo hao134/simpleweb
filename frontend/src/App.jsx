@@ -12,6 +12,7 @@ import {
 import moment from "moment"; // 引入 moment.js
 import ChartDisplay from "./components/ChartDisplay";
 import FilterControls from "./components/FilterControls";
+import { fetchTemperatureData } from "./services/api";
 
 ChartJS.register(
   CategoryScale,
@@ -31,16 +32,10 @@ const App = () => {
   const [selectedWarehouse, setSelectedWarehouse] = useState("All");
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
 
-  const API_BASE_URL = "https://98.84.242.113/api/temperature_data";
-
   useEffect(() => {
-    fetch(API_BASE_URL)
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setError(error.message);
-      });
+    fetchTemperatureData()
+      .then((fetchedData) => setData(fetchedData))
+      .catch((error) => {setError(error.message);});
   }, []);
 
   // 上方圖表：所有倉庫數據整合
