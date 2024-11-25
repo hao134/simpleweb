@@ -44,6 +44,7 @@ const ChartDisplay = ({ data }) => {
       borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
         Math.random() * 255
       )}, ${Math.floor(Math.random() * 255)}, 1)`,
+      spanGaps: true, // 啟用 gap 自動連接
     }));
 
     const chartData = {
