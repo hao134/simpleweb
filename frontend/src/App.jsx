@@ -25,9 +25,12 @@ const App = () => {
       const inDateRange =
         (!dateRange.start || date >= new Date(dateRange.start)) &&
         (!dateRange.end || date <= new Date(dateRange.end));
-      const matchesWarehouse =
-        selectedWarehouse.includes("All") || 
-        selectedWarehouse.includes(item.location);
+      const matchesWarehouse = 
+        selectedWarehouse.includes("All") ||
+        selectedWarehouse.some((warehouse) => warehouse === item.location)
+      // const matchesWarehouse =
+      //   selectedWarehouse.includes("All") || 
+      //   selectedWarehouse.includes(item.location);
       return inDateRange && matchesWarehouse;
     });
     setFilteredData(filtered)
