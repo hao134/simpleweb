@@ -17,7 +17,7 @@ const FilterControls = ({
 
   // Handle date input changes
   const handleDateChange = (e) => {
-    setDateRange({ ...dateRange, [e.target.name]: e.traget.value });
+    setDateRange({ ...dateRange, [e.target.name]: e.target.value });
   }
   return (
     <div style={{ marginBottom: "20px" }}>
