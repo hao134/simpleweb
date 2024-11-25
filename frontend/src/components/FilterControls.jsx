@@ -1,12 +1,26 @@
+import Select from "react-select";
 const FilterControls = ({
+  data,
   dateRange,
-  handleDateChange,
-  selectedWarehouse,
-  handleWarehouseChange,
-  warehouses,
+  selectedWarehouses,
+  setDateRange,
+  setSelectedWarehouses,
 }) => {
+  // Generate warehouse options
+  const warehouseOptions = [
+    { value: "All", label: "All"},
+    ...[... new Set(data.map((item) => item.location))].map((warehouse) => ({
+      value: warehouse,
+      label: warehouse,
+    })),
+  ];
+
+  // Handle date input changes
+  const handleDateChange = (e) => {
+    setDateRange({ ...dateRange, [e.target.name]: e.traget.value });
+  }
   return (
-    <div>
+    <div style={{ marginBottom: "20px" }}>
       <label>
         Start Date:
         <input
@@ -27,14 +41,18 @@ const FilterControls = ({
       </label>
       <label>
         Warehouse:
-        <select value={selectedWarehouse} onChange={handleWarehouseChange}>
-          <option value="All">All</option>
-          {warehouses.map((warehouse) => (
-            <option key={warehouse} value={warehouse}>
-              {warehouse}
-            </option>
-          ))}
-        </select>
+        <Select
+          isMulti
+          value={selectedWarehouses.map((value) => ({
+            value,
+            label: value,
+          }))}
+          onChange={(selectedOptions) => {
+            const values = selectedOptions.map((option) => option.value);
+            setSelectedWarehouses(values.includes("All") ? ["All"] : values);
+          }}
+          options={warehouseOptions}
+        />
       </label>
     </div>
   );
