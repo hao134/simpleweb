@@ -8,7 +8,6 @@ const App = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
-  //fix the problem n.map is not a function 2
   const [selectedWarehouse, setSelectedWarehouse] = useState(["All"]);
   const [error, setError] = useState(null);
   
@@ -26,10 +25,7 @@ const App = () => {
       const inDateRange =
         (!dateRange.start || date >= new Date(dateRange.start)) &&
         (!dateRange.end || date <= new Date(dateRange.end));
-      // //fix the problem n.map is not a function 1
-      // const matchesWarehouse = 
-      //   selectedWarehouse.includes("All") ||
-      //   selectedWarehouse.some((warehouse) => warehouse === item.location)
+
       const matchesWarehouse =
         selectedWarehouse.includes("All") || 
         selectedWarehouse.includes(item.location);
@@ -55,20 +51,7 @@ const App = () => {
         setDateRange={setDateRange}
         setSelectedWarehouses={setSelectedWarehouse}
       />
-
       <ChartDisplay data={filteredData} />
-      {/* 上方圖表
-      <ChartDisplay title="All Warehouses" chartData={allChartData} /> */}
-
-      {/* 下方圖表
-      <ChartDisplay 
-          title={
-            selectedWarehouse === "All"
-              ? "Filtered Data for All Warehouses"
-              : `Filtered Data for ${selectedWarehouse}`
-          }
-          chartData={singleChartData}
-      /> */}
     </div>
   );
 }
