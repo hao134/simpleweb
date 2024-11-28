@@ -42,7 +42,7 @@ const ChartDisplay = ({ data }) => {
       "rgba(255, 255, 0, 1)", // yellow
     ];
 
-    const datasets = warehouses.map((warehouse) => ({
+    const datasets = warehouses.map((warehouse, index) => ({
       label: warehouse,
       data: timestamps.map((timestamp) => {
         const match = data.find(
