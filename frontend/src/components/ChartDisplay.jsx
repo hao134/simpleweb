@@ -33,6 +33,15 @@ const ChartDisplay = ({ data }) => {
 
     const warehouses = Array.from(new Set(data.map((item) => item.location)));
 
+    const predefinedColors = [
+      "rgba(255, 0, 0, 1)", // red
+      "rgba(0, 255, 0, 1)", // green
+      "rgba(0, 0, 255, 1)", // blue
+      "rgba(255, 165, 0, 1)", // orange
+      "rgba(128, 0, 128, 1)", // purple
+      "rgba(255, 255, 0, 1)", // yellow
+    ];
+
     const datasets = warehouses.map((warehouse) => ({
       label: warehouse,
       data: timestamps.map((timestamp) => {
@@ -41,9 +50,7 @@ const ChartDisplay = ({ data }) => {
         );
         return match ? parseFloat(match.temperature) : null;
       }),
-      borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
-        Math.random() * 255
-      )}, ${Math.floor(Math.random() * 255)}, 1)`,
+      borderColor: predefinedColors[index % predefinedColors.length], // 從預定義顏色中選擇
       spanGaps: true, // 啟用 gap 自動連接
     }));
 
