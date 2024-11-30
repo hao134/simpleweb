@@ -20,15 +20,7 @@ jobs:
         chmod 600 ~/.ssh/deploy_key
         ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
     
-    - name: Generate new temperature data on EC2
-      env:
-        EC2_USER: ${{ secrets.EC2_USER }}
-        EC2_HOST: ${{ secrets.EC2_HOST }}
-      run: |
-        ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
-          python3 ~/simpleweb/generate_faked_data.py &&
-          echo 'Generated new temperature data'
-        "
+    
     - name: Create .env file on EC2
       env:
         EC2_USER: ${{ secrets.EC2_USER }}
@@ -85,7 +77,17 @@ jobs:
     #     EC2_HOST: ${{ secrets.EC2_HOST }}
     #   run:
     #     scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
-
+    
+    - name: Generate new temperature data on EC2
+      env:
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+      run: |
+        ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
+          python3 ~/simpleweb/generate_faked_data.py &&
+          echo 'Generated new temperature data'
+        "
+        
     - name: Update MongoDB with JSON data
       env:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
