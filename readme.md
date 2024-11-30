@@ -21,3 +21,6 @@
 # 1117
 * change director權限問題
 * set nginx
+
+# 1130
+update temparature data 3rd times
