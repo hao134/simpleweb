@@ -79,14 +79,10 @@ jobs:
     #     scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
     
     - name: Generate new temperature data on EC2
-      env:
-        EC2_USER: ${{ secrets.EC2_USER }}
-        EC2_HOST: ${{ secrets.EC2_HOST }}
       run: |
-        ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
-          python generate_faked_data.py &&
-          echo 'Generated new temperature data'
-        "
+        python generate_faked_data.py &&
+        echo 'Generated new temperature data'
+        
 
     - name: Update MongoDB with JSON data
       env:
