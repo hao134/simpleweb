@@ -1,47 +1,47 @@
 [
     {
         "location": "Warehouse 1",
-        "timestamp": "2024-11-30T07:20:01.303135Z",
-        "temperature": 26.1
+        "timestamp": "2024-11-30T07:25:01.987552Z",
+        "temperature": 22.0
     },
     {
         "location": "Warehouse 1",
-        "timestamp": "2024-11-30T03:20:01.303135Z",
-        "temperature": 29.4
-    },
-    {
-        "location": "Warehouse 1",
-        "timestamp": "2024-11-29T23:20:01.303135Z",
-        "temperature": 23.6
-    },
-    {
-        "location": "Warehouse 2",
-        "timestamp": "2024-11-30T07:20:01.303135Z",
-        "temperature": 25.4
-    },
-    {
-        "location": "Warehouse 2",
-        "timestamp": "2024-11-30T03:20:01.303135Z",
-        "temperature": 22.5
-    },
-    {
-        "location": "Warehouse 2",
-        "timestamp": "2024-11-29T23:20:01.303135Z",
-        "temperature": 23.7
-    },
-    {
-        "location": "Warehouse 3",
-        "timestamp": "2024-11-30T07:20:01.303135Z",
-        "temperature": 21.4
-    },
-    {
-        "location": "Warehouse 3",
-        "timestamp": "2024-11-30T03:20:01.303135Z",
+        "timestamp": "2024-11-30T03:25:01.987552Z",
         "temperature": 20.2
     },
     {
+        "location": "Warehouse 1",
+        "timestamp": "2024-11-29T23:25:01.987552Z",
+        "temperature": 27.6
+    },
+    {
+        "location": "Warehouse 2",
+        "timestamp": "2024-11-30T07:25:01.987552Z",
+        "temperature": 21.2
+    },
+    {
+        "location": "Warehouse 2",
+        "timestamp": "2024-11-30T03:25:01.987552Z",
+        "temperature": 29.0
+    },
+    {
+        "location": "Warehouse 2",
+        "timestamp": "2024-11-29T23:25:01.987552Z",
+        "temperature": 28.3
+    },
+    {
         "location": "Warehouse 3",
-        "timestamp": "2024-11-29T23:20:01.303135Z",
-        "temperature": 23.2
+        "timestamp": "2024-11-30T07:25:01.987552Z",
+        "temperature": 24.2
+    },
+    {
+        "location": "Warehouse 3",
+        "timestamp": "2024-11-30T03:25:01.987552Z",
+        "temperature": 28.6
+    },
+    {
+        "location": "Warehouse 3",
+        "timestamp": "2024-11-29T23:25:01.987552Z",
+        "temperature": 27.4
     }
 ]
