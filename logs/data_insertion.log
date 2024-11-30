@@ -1,1 +1,7 @@
-test
+2024-11-28 14:20:32,795 INFO: Connected to Database
+2024-11-28 14:20:32,795 INFO: Prepared operation for record: {'timestamp': '2024-11-04T08:00:00Z', 'location': 'Warehouse 1', 'temperature': 23.9}
+2024-11-28 14:20:32,795 INFO: Prepared operation for record: {'timestamp': '2024-11-04T09:00:00Z', 'location': 'Warehouse 2', 'temperature': 22.5}
+2024-11-28 14:20:32,795 INFO: Prepared operation for record: {'timestamp': '2024-11-04T11:00:00Z', 'location': 'Warehouse 1', 'temperature': 24.5}
+2024-11-28 14:20:32,795 ERROR: Invalid timestamp: Invalid-timestamp
+2024-11-28 14:20:32,796 WARNING: Invalid record, skipping: {'timestamp': 'Invalid-timestamp', 'location': 'Warehouse 1', 'temperature': 24.5}
+2024-11-28 14:20:32,817 INFO: Bulk write result: {'writeErrors': [], 'writeConcernErrors': [], 'nInserted': 0, 'nUpserted': 0, 'nMatched': 3, 'nModified': 0, 'nRemoved': 0, 'upserted': []}
