@@ -84,10 +84,10 @@ jobs:
         EC2_HOST: ${{ secrets.EC2_HOST }}
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
-          python3 ~/simpleweb/generate_faked_data.py &&
+          python generate_faked_data.py &&
           echo 'Generated new temperature data'
         "
-        
+
     - name: Update MongoDB with JSON data
       env:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
