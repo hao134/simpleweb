@@ -24,3 +24,6 @@
 
 # 1130
 update temparature data 3rd times
+
+# 1202
+update tempararure data
