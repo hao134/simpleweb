@@ -45,7 +45,7 @@ app.get('/api/future_temperature_data', async (req, res) => {
   console.log("Received request for /api/future_temperature_data");
 
   try {
-    const futuretemperatureData = await db.collection('temperature_data').find({}).toArray();
+    const futuretemperatureData = await db.collection('future_temperature_data').find({}).toArray();
     console.log("Data fetched from 'future_temperature_data':", futuretemperatureData);
     res.json(futuretemperatureData);
   } catch (error) {
