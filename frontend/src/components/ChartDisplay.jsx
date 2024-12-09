@@ -26,12 +26,15 @@ const ChartDisplay = ({ data, title, futureData }) => {
       return <p>No data available for {title}</p>;
     }
 
-    //Generate chart data
-    const timestamps = Array.from(
-      new Set(data.map((item) => item.timestamp))
-    ).sort((a, b) => new Date(a) - new Date(b));
+    // 將歷史及未來的timestamp全部收集起來
+    const allTimestamps = [
+      ...data.map((item) => item.timestamp),
+      ...(futureData ? futureData.map((item) => item.timestamp) : [])
+    ]
 
-    const warehouses = Array.from(new Set(data.map((item) => item.location)));
+    const timestamps = Array.from(new Set(allTimestamps)).sort((a, b) => new Date(a) - new Date(b));
+
+    const warehouses = Array.from(new Set([...data.map((item) => item.location), ...(futureData ? futureData.map((item) => item.location): [])]));
 
     const predefinedColors = [
       "rgba(255, 0, 0, 1)", // red
