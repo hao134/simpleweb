@@ -80,43 +80,6 @@ const ChartDisplay = ({ data, title, futureData }) => {
       return futureData ? [historicalDataset, predictionDataset] : [historicalDataset];
     })
 
-    // const datasets = warehouses.map((warehouse, index) => {
-    //   const historicalDataset = {
-    //     label: `${warehouse} {Historical}`,
-    //     data: data
-    //        .filter((item) => item.location === warehouse)
-    //        .map((item) => ({
-    //          x: moment(item.timestamp).format("YYYY-MM-DD HH:mm"),
-    //          y: item.temperature,
-    //        })),
-    //        borderColor: predefinedColors[index % predefinedColors.length],
-    //        borderWidth: 2,
-    //   };
-
-    //   const predictionDataset = futureData
-    //     ? {
-    //         label: `${warehouse} (Prediction)`,
-    //         data: futureData
-    //           .filter((item) => item.location === warehouse)
-    //           .map((item) => ({
-    //             x: moment(item.timestamp).format("YYYY-MM-DD HH:mm"),
-    //             y: item.temperature,
-    //           })),
-    //           borderColor: predefinedColors[index % predefinedColors.length],
-    //           borderDash: [5, 5], //虛線樣式
-    //           borderWidth: 2,
-    //       }
-    //     : null;
-      
-    //   return futureData ? [historicalDataset, predictionDataset] : [historicalDataset]; 
-    // })
-
-    // const chartData = {
-    //   labels: timestamps.map((timestamp) => 
-    //     moment(timestamp).format("YYYY-MM-DD HH:mm")
-    //   ),
-    //   datasets,
-    // };
 
     const chartData = {
       labels: timestamps.map((timestamp) => 
