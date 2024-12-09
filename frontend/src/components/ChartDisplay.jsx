@@ -48,7 +48,7 @@ const ChartDisplay = ({ data, title, futureData }) => {
         label: `${warehouse} (Historical)`,
         data: timestamps.map((timestamp) => {
           const match = data.find(
-            (item) => item.location === warehouse && item.timestamp === timestamps
+            (item) => item.location === warehouse && item.timestamp === timestamp
           );
           return match ? parseFloat(match.temperature) : null;
         }),
