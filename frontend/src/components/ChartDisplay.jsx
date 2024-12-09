@@ -119,7 +119,7 @@ const ChartDisplay = ({ data, title, futureData }) => {
       labels: timestamps.map((timestamp) => 
         moment(timestamp).format("YYYY-MM-DD HH:mm")
       ),
-      datasets,
+      datasets: datasets.flat(),
     };
       
 
