@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react";
 import FilterControls from "./components/FilterControls";
 import ChartDisplay from "./components/ChartDisplay";
-import { fetchTemperatureData } from "./services/api";
+import { fetchTemperatureData, fetchFuturePredictions } from "./services/api";
 
 
 const App = () => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [futureData, setFutureData] = useState([]); //預測數據
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [selectedWarehouse, setSelectedWarehouse] = useState(["All"]);
   const [error, setError] = useState(null);
   
-  // 當初次進入時獲取資料
+  // 當初次進入時獲取歷史資料
   useEffect(() => {
     fetchTemperatureData()
       .then((fetchedData) => setData(fetchedData))
+      .catch((error) => {setError(error.message);});
+  }, []);
+
+  useEffect(() => {
+    fetchFuturePredictions()
+      .then((predictions) => setFutureData(predictions))
       .catch((error) => {setError(error.message);});
   }, []);
 
@@ -43,7 +50,7 @@ const App = () => {
     <div>
       <h1>Temperature Data Visualization</h1>
 
-      {/* 篩選條件 */}
+      {/* 上方圖表:歷史數據(可篩選) */}
       <FilterControls
         data={data}
         dateRange={dateRange}
@@ -51,7 +58,9 @@ const App = () => {
         setDateRange={setDateRange}
         setSelectedWarehouses={setSelectedWarehouse}
       />
-      <ChartDisplay data={filteredData} />
+      <ChartDisplay data={filteredData} title="Filtered Historical Data"/>
+      {/*下方圖表:歷史數據+預測數據*/}
+      <ChartDisplay data={data} futureData={futureData} title="Historical + Predictions (All Warehouses)" />
     </div>
   );
 }
