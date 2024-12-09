@@ -21,15 +21,15 @@ ChartJS.register(
   Legend
 )
 
-const ChartDisplay = ({ data }) => {
+const ChartDisplay = ({ data, title, futureData }) => {
     if (!data.length) {
-      return <p>No data available for the selected criteria.</p>;
+      return <p>No data available for {title}</p>;
     }
 
     // Generate chart data
-    const timestamps = Array.from(
-      new Set(data.map((item) => item.timestamp))
-    ).sort((a, b) => new Date(a) - new Date(b));
+    // const timestamps = Array.from(
+    //   new Set(data.map((item) => item.timestamp))
+    // ).sort((a, b) => new Date(a) - new Date(b));
 
     const warehouses = Array.from(new Set(data.map((item) => item.location)));
 
@@ -37,58 +37,98 @@ const ChartDisplay = ({ data }) => {
       "rgba(255, 0, 0, 1)", // red
       "rgba(0, 255, 0, 1)", // green
       "rgba(0, 0, 255, 1)", // blue
-      "rgba(255, 165, 0, 1)", // orange
-      "rgba(128, 0, 128, 1)", // purple
-      "rgba(255, 255, 0, 1)", // yellow
+      // "rgba(255, 165, 0, 1)", // orange
+      // "rgba(128, 0, 128, 1)", // purple
+      // "rgba(255, 255, 0, 1)", // yellow
     ];
 
-    const datasets = warehouses.map((warehouse, index) => ({
-      label: warehouse,
-      data: timestamps.map((timestamp) => {
-        const match = data.find(
-          (item) => item.location === warehouse && item.timestamp === timestamp 
-        );
-        return match ? parseFloat(match.temperature) : null;
-      }),
-      borderColor: predefinedColors[index % predefinedColors.length], // 從預定義顏色中選擇
-      spanGaps: true, // 啟用 gap 自動連接
-    }));
+    // const datasets = warehouses.map((warehouse, index) => ({
+    //   label: warehouse,
+    //   data: timestamps.map((timestamp) => {
+    //     const match = data.find(
+    //       (item) => item.location === warehouse && item.timestamp === timestamp 
+    //     );
+    //     return match ? parseFloat(match.temperature) : null;
+    //   }),
+    //   borderColor: predefinedColors[index % predefinedColors.length], // 從預定義顏色中選擇
+    //   spanGaps: true, // 啟用 gap 自動連接
+    // }));
+
+    const datasets = warehouses.map((warehouse, index) => {
+      const historicalDataset = {
+        label: `${warehouse} {Historical}`,
+        data: data
+           .filter((item) => item.location === warehouse)
+           .map((item) => ({
+             x: moment(item.timestamp).format("YYYY-MM-DD HH:mm"),
+             y: item.temperature,
+           })),
+           borderColor: predefinedColors[index % predefinedColors.length],
+           borderWidth: 2,
+      };
+
+      const predictionDataset = futureData
+        ? {
+            label: `${warehouse} (Prediction)`,
+            data: futureData
+              .filter((item) => item.location === warehouse)
+              .map((item) => ({
+                x: moment(item.timestamp).format("YYYY-MM-DD HH:mm"),
+                y: item.temperature,
+              })),
+              borderColor: predefinedColors[index % predefinedColors.length],
+              borderDash: [5, 5], //虛線樣式
+              borderWidth: 2,
+          }
+        : null;
+      
+      return futureData ? [historicalDataset, predictionDataset] : [historicalDataset]; 
+    })
+
+    // const chartData = {
+    //   labels: timestamps.map((timestamp) => 
+    //     moment(timestamp).format("YYYY-MM-DD HH:mm")
+    //   ),
+    //   datasets,
+    // };
 
     const chartData = {
-      labels: timestamps.map((timestamp) => 
-        moment(timestamp).format("YYYY-MM-DD HH:mm")
-      ),
-      datasets,
+      datasets: datasets.flat(),
     };
+      
 
     return (
-      <Line
-        data={chartData}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: {
-              display: true,
-              position: "top",
-            },
-          },
-          scales: {
-            x: {
-              title: {
+      <div>
+        <h2>{title}</h2>
+        <Line
+          data={chartData}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
                 display: true,
-                text: "Timestamp",
+                position: "top",
               },
             },
-            y: {
-              title: {
-                display: true,
-                text: "Temperature (°C)",
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: "Timestamp",
+                },
               },
-              beginAtZero: true,
+              y: {
+                title: {
+                  display: true,
+                  text: "Temperature (°C)",
+                },
+                beginAtZero: true,
+              },
             },
-          },
-        }}
-      />
+          }}
+        />  
+      </div>
+      
     );
   };
   

@@ -50,7 +50,7 @@ const App = () => {
     <div>
       <h1>Temperature Data Visualization</h1>
 
-      {/* 篩選條件 */}
+      {/* 上方圖表:歷史數據(可篩選) */}
       <FilterControls
         data={data}
         dateRange={dateRange}
@@ -58,8 +58,9 @@ const App = () => {
         setDateRange={setDateRange}
         setSelectedWarehouses={setSelectedWarehouse}
       />
-      <ChartDisplay data={filteredData} />
-      <ChartDisplay data={futureData} />
+      <ChartDisplay data={filteredData} title="Filtered Historical Data"/>
+      {/*下方圖表:歷史數據+預測數據*/}
+      <ChartDisplay data={data} futureData={futureData} title="Historical + Predictions (All Warehouses)" />
     </div>
   );
 }
