@@ -54,7 +54,7 @@ const ChartDisplay = ({ data, title, futureData }) => {
         }),
         borderColor: predefinedColors[index % predefinedColors.length],
         spanGaps: true, // 啟用 gap 自動連接
-        // borderWidth: 2,
+        borderWidth: 2,
       };
 
       // 預測數據
@@ -70,7 +70,7 @@ const ChartDisplay = ({ data, title, futureData }) => {
             borderColor: predefinedColors[index % predefinedColors.length],
             borderDash: [5, 5], //虛線模式
             spanGaps: true,
-            //borderWidth: 2,
+            borderWidth: 2,
           }
         : null;
 

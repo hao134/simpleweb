@@ -80,11 +80,11 @@ jobs:
     #   run:
     #     scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
     
-    # 在EC2上生成假溫度數據
-    - name: Generate new temperature data on EC2
-      run: |
-        python generate_faked_data.py &&
-        echo 'Generated new temperature data'
+    # # 在EC2上生成假溫度數據
+    # - name: Generate new temperature data on EC2
+    #   run: |
+    #     python generate_faked_data.py &&
+    #     echo 'Generated new temperature data'
         
     # 更新 MondoDB 數據
     - name: Update MongoDB with JSON data
