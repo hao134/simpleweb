@@ -41,7 +41,7 @@ def insert_future_predictions_to_mongodb(predictions):
         prediction["timestamp"] = prediction.pop("ds")
         prediction["temperature"] = prediction.pop("yhat")
 
-    client = MongoClient(MONGODB_URI)
+    client = MongoClient(os.getenv("MONGODB_URI"))
     db = client["sensor_data_db"]
     collection = db["future_temperature_data"]
 
