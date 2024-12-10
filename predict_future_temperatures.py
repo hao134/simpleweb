@@ -52,8 +52,8 @@ if __name__ == "__main__":
         future_data = predict_temperature(warehouse_data)
         for item in future_data:
             item["location"] = warehouse
-            # Convert Timestamp to ISO format string before dumping to JSON
-            item["ds"] = item["ds"].isoformat()
+            # Convert Timestamp to ISO string and add 'Z' to denote UTC
+            item["ds"] = item["ds"].isoformat() + "Z"
         predictions.extend(future_data)
 
     # 保存預測數據到JSON文件
