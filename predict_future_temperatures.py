@@ -34,11 +34,28 @@ def predict_temperature(data, periods = 5, freq = "H"):
     future_forecast = forecast.iloc[-periods:][["ds", "yhat"]]
     return future_forecast.to_dict(orient="records")
 
+def insert_future_predictions_to_mongodb(predictions):
+    """將預測數據插入到MongoDB"""
+    # 轉換字段名稱
+    for prediction in predictions:
+        prediction["timestamp"] = prediction.pop("ds")
+        prediction["temperature"] = prediction.pop("yhat")
+
+    client = MongoClient(MONGODB_URI)
+    db = client["sensor_data_db"]
+    collection = db["future_temperature_data"]
+
+    # 刪除舊數據
+    collection.delete_many({})
+    print("Old future data deleted")
+
+    # 插入新數據
+    collection.insert_many(predictions)
+    print("New future temperature data inserted.")
+
 if __name__ == "__main__":
     # 從 MongoDB獲取數據
     raw_data = get_data_from_mongodb()
-    print(raw_data)
-
     # 分倉庫進行預測
     warehouses =set(item["location"] for item in raw_data)
     predictions = []
@@ -60,3 +77,6 @@ if __name__ == "__main__":
     with open("future_temperature_data.json", "w") as f:
         json.dump(predictions, f, indent=4)
     print("Future predictions saved to future_temperature_data.json.")
+
+    # 將預測數據插入到 MongoDB
+    insert_future_predictions_to_mongodb(predictions)
