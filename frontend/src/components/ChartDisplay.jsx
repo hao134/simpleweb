@@ -21,7 +21,7 @@ ChartJS.register(
   Legend
 )
 
-const ChartDisplay = ({ data, title, futureData, historyLimit = 102 }) => {
+const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
     if (!data.length) {
       return <p>No data available for {title}</p>;
     }
