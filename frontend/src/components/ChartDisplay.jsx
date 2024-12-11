@@ -25,16 +25,37 @@ const ChartDisplay = ({ data, title, futureData }) => {
     if (!data.length) {
       return <p>No data available for {title}</p>;
     }
+    
+    // 限制數據點到最近的102個，並確保排序
+    const limitData = (data, limit = 102) => {
+      const sortedData = [...data].sort(
+        (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+      );
+      const startIndex = Math.max(0, sortedData.length - limit);
+      return sortedData.slice(startIndex, sortedData.length);
+    }
+
+    const limitedData = limitData(data, 102);
+    const limitedFutureData = futureData ? limitData(futureData, 102) : [];
 
     // 將歷史及未來的timestamp全部收集起來
     const allTimestamps = [
-      ...data.map((item) => item.timestamp),
-      ...(futureData ? futureData.map((item) => item.timestamp) : [])
+      ...limitedData.map((item) => item.timestamp),
+      ...(limitedFutureData ? limitedFutureData.map((item) => item.timestamp) : [])
     ]
 
-    const timestamps = Array.from(new Set(allTimestamps)).sort((a, b) => new Date(a) - new Date(b));
+    const timestamps = Array.from(new Set(allTimestamps)).sort(
+      (a, b) => new Date(a) - new Date(b)
+    );
 
-    const warehouses = Array.from(new Set([...data.map((item) => item.location), ...(futureData ? futureData.map((item) => item.location): [])]));
+    const warehouses = Array.from(
+      new Set([
+        ...limitedData.map((item) => item.location),
+        ...(limitedFutureData
+          ? limitedFutureData.map((item) => item.location)
+          : []),
+      ])
+    );
 
     const predefinedColors = [
       "rgba(255, 0, 0, 1)", // red
@@ -61,11 +82,11 @@ const ChartDisplay = ({ data, title, futureData }) => {
       };
 
       // 預測數據
-      const predictionDataset = futureData
+      const predictionDataset = limitedFutureData.length
         ? {
             label: `${warehouse} (Prediction)`,
             data: timestamps.map((timestamp) => {
-              const match = futureData.find(
+              const match = limitedFutureData.find(
                 (item) => item.location === warehouse && item.timestamp === timestamp
               );
               return match ? parseFloat(match.temperature) : null;
@@ -77,8 +98,10 @@ const ChartDisplay = ({ data, title, futureData }) => {
           }
         : null;
 
-      return futureData ? [historicalDataset, predictionDataset] : [historicalDataset];
-    })
+      return limitedFutureData.length
+        ? [historicalDataset, predictionDataset] 
+        : [historicalDataset];
+    });
 
 
     const chartData = {
