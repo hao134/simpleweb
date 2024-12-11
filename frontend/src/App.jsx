@@ -58,9 +58,18 @@ const App = () => {
         setDateRange={setDateRange}
         setSelectedWarehouses={setSelectedWarehouse}
       />
-      <ChartDisplay data={filteredData} title="Filtered Historical Data"/>
+      <ChartDisplay
+        data={filteredData} 
+        title="Filtered Historical Data"
+        historyLimit={102}
+      />
       {/*下方圖表:歷史數據+預測數據*/}
-      <ChartDisplay data={data} futureData={futureData} title="Historical + Predictions (All Warehouses)" />
+      <ChartDisplay 
+        data={data} 
+        futureData={futureData} 
+        title="Historical + Predictions (All Warehouses)"
+        historyLimit={34}  
+      />
     </div>
   );
 }
