@@ -68,7 +68,7 @@ const App = () => {
         data={data} 
         futureData={futureData} 
         title="Historical + Predictions (All Warehouses)"
-        historyLimit={34}  
+        historyLimit={36}  
       />
     </div>
   );

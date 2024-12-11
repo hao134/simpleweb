@@ -35,10 +35,10 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
       return sortedData.slice(startIndex, sortedData.length);
     }
 
-    // 若是下方圖表，歷史數據限制為34個點，其他圖表則使用`historyLimit`
+    // 若是下方圖表，歷史數據限制為36個點，其他圖表則使用`historyLimit`
     const limitedData = 
-      title.includes("Predictions") && historyLimit > 34
-        ? limitData(data, 34)
+      title.includes("Predictions") && historyLimit > 36
+        ? limitData(data, 36)
         : limitData(data, historyLimit);
 
     //const limitedFutureData = futureData ? limitData(futureData, 102) : [];
