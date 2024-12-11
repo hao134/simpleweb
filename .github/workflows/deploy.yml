@@ -80,45 +80,45 @@ jobs:
     #   run:
     #     scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
     
-    # # 在EC2上生成假溫度數據
-    # - name: Generate new temperature data on EC2
-    #   run: |
-    #     python generate_faked_data.py &&
-    #     echo 'Generated new temperature data'
+    # 在EC2上生成假溫度數據
+    - name: Generate new temperature data on EC2
+      run: |
+        python generate_faked_data.py &&
+        echo 'Generated new temperature data'
         
-    # # 更新 MondoDB 數據
-    # - name: Update MongoDB with JSON data
-    #   env:
-    #     MONGODB_URI: ${{ secrets.MONGODB_URI }}
-    #   run: |
-    #     python -m pip install pymongo &&# 安裝pymongo
-    #     python update_mongodb.py &&     # 執行更新腳本
-    #     echo 'MongoDB updated successfully'
+    # 更新 MondoDB 數據
+    - name: Update MongoDB with JSON data
+      env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      run: |
+        python -m pip install pymongo &&# 安裝pymongo
+        python update_mongodb.py &&     # 執行更新腳本
+        echo 'MongoDB updated successfully'
     
-    # # 設置 Python 環境
-    # - name: Set up Python environment
-    #   uses: actions/setup-python@v2
-    #   with:
-    #     python-version: "3.9"
+    # 設置 Python 環境
+    - name: Set up Python environment
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.9"
   
-    # # 安裝 Python 依賴
-    # - name: Install dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip
-    #     pip install pandas prophet pymongo
+    # 安裝 Python 依賴
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas prophet pymongo
     
-    # # 從 MongoDB 獲取數據並生成未來預測
-    # - name: Generate future predictions using Prophet
-    #   env:
-    #     MONGODB_URI: ${{ secrets.MONGODB_URI }}
-    #   run: |
-    #     python predict_future_temperatures.py &&
-    #     echo 'Future predictions generated successfully'
+    # 從 MongoDB 獲取數據並生成未來預測
+    - name: Generate future predictions using Prophet
+      env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      run: |
+        python predict_future_temperatures.py &&
+        echo 'Future predictions generated successfully'
 
-    # # 保存日誌到 EC2
-    # - name: Save log file to EC2
-    #   env:
-    #     EC2_USER: ${{ secrets.EC2_USER }}
-    #     EC2_HOST: ${{ secrets.EC2_HOST }}
-    #   run: |
-    #     scp -i ~/.ssh/deploy_key data_insertion.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
+    # 保存日誌到 EC2
+    - name: Save log file to EC2
+      env:
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+      run: |
+        scp -i ~/.ssh/deploy_key data_insertion.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
