@@ -142,7 +142,7 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
                   display: true,
                   text: "Temperature (°C)",
                 },
-                beginAtZero: true,
+                //beginAtZero: true,
               },
             },
           }}
