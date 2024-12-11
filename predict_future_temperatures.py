@@ -12,7 +12,7 @@ def get_data_from_mongodb():
     data = list(collection.find({}, {"_id": 0, "location": 1, "timestamp": 1, "temperature": 1}))
     return data
 
-def predict_temperature(data, periods = 5, freq = "H"):
+def predict_temperature(data, periods = 12, freq = "H"):
     """使用 Prophet 預測未來數據"""
     df = pd.DataFrame(data)
     #將timestamp轉換為datetime格式
