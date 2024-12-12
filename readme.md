@@ -30,3 +30,6 @@ update tempararure data
 
 # 1210
 update temperature data
+
+# 1212 
+update temperature data
