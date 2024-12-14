@@ -10,7 +10,7 @@ def generate_fake_temperature_data():
     for warehouse in warehouses:
         for i in range(3):  # 生成一天內的3個時段數據
             timestamp = current_time - datetime.timedelta(hours=i * 4)  # 每4小時一個數據
-            temperature = round(random.uniform(20.0, 30.0), 1)  # 隨機生成 20-30 度
+            temperature = round(random.uniform(10.0, 40.0), 1)  # 隨機生成 10-40 度
             data.append({
                 "location": warehouse,
                 "timestamp": timestamp.isoformat() + "Z",  # 符合 ISO8601 格式
