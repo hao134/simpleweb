@@ -86,11 +86,15 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
         borderColor: predefinedColors[index % predefinedColors.length],
         spanGaps: true, // 啟用 gap 自動連接
         borderWidth: 2,
+        fill: false //不填滿
       };
 
-      // 預測數據主線
-      const predictionDataset = futureData.length
-        ? {
+      if (!futureData.length) {
+        return [historicalDataset];
+      }
+
+      // 預測資料（中間虛線）
+      const predictionDataset = {
             label: `${warehouse} (Prediction)`,
             data: timestamps.map((timestamp) => {
               const match = futureData.find(
@@ -102,39 +106,50 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
             borderDash: [5, 5], //虛線模式
             spanGaps: true,
             borderWidth: 2,
+            fill: false
           }
-        : null;
+      // 下界 (Lower Bound)
+      const lowerBoundData =  timestamps.map((timestamp) =>{
+        const lbMatch = futureData.find(
+          (item) => item.location === warehouse && item.timestamp === timestamp 
+        )?.lower_bound;
+        return lbMatch !== undefined ? parseFloat(lbMatch) : null;
+      });
       
-      // 預測數據信賴區間
-      const confidenceIntervalDataset = futureData.length
-        ? {
-            label: `${warehouse} (Confidence Interval)`,
-            data: timestamps.map((timestamp, idx) => {
-              const lowerMatch = futureData.find(
-                (item) => item.location === warehouse && item.timestamp === timestamp 
-              )?.lower_bound;
-              const upperMatch = futureData.find(
-                (item) => item.location === warehouse && item.timestamp === timestamp   
-              )?.upper_bound;
+      const lowerBoundDataset = {
+        label: `${warehouse} (Lower Bound)`,
+        data: lowerBoundData,
+        borderColor: 'rgba(0,0,0,0)', // 不顯示線，透明邊線
+        pointRadius: 0,
+        spanGaps: true,
+        fill: false
+      };
 
-              return lowerMatch && upperMatch
-                ? { y: lowerMatch, y2: upperMatch }
-                : null;
-            }),
-            backgroundColor: predefinedColors[index % predefinedColors.length].replace(
-              "1)",
-              "0.2)"
-            ), //半透明背景
-            fill: true,
-            borderWidth: 0,
-            spanGaps: true,
-            pointRadius: 0,
-        }
-      : null;
+      // 上界 (Upper Bound) - 將fill指向前一個資料集(即 lowerBoundDataset)
+      const upperBoundData = timestamps.map((timestamp) => {
+        const ubMatch = futureData.find(
+          (item) => item.location === warehouse && item.timestamp === timestamp 
+        )?.upper_bound;
+        return ubMatch !== undefined ? parseFloat(ubMatch) : null;
+      })
 
-      return futureData
-        ? [historicalDataset, predictionDataset, confidenceIntervalDataset] 
-        : [historicalDataset];
+      const upperBoundDataset = {
+        label: `${warehouse} (Confidence Interval)`,
+        data: upperBoundData,
+        borderColor: 'rgba(0,0,0,0)', //不顯示線
+        backgroundColor: predefinedColors[index % predefinedColors.length].replace("1)", "0.2)"), //半透明背景
+        pointRadius: 0,
+        borderWidth: 0,
+        spanGaps: true,
+        fill: '-1' // 將此dataset與上個dataset行程填滿區域
+      }
+
+      // 回傳順序：
+      // 1. Historical
+      // 2. LowerBound (為fill的底線)
+      // 3. UpperBound (fill: '-1' 表示填入到下界線)
+      // 4. Prediction (中間虛線)
+      return [historicalDataset, lowerBoundDataset, upperBoundDataset, predictionDataset]
     });
 
 
