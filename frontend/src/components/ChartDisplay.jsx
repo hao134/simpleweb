@@ -172,6 +172,20 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
               legend: {
                 display: true,
                 position: "top",
+                labels: {
+                  // 使用 filter 函式過濾掉不想縣市的圖例
+                  filter: (legendItem, chartData) => {
+                    const text = legendItem.text || "";
+                    // 只顯示 Historical 和 Prediction, 隱藏 Lower Bound , Condidence Interval
+                    if (
+                      text.includes("Lower Bound") ||
+                      text.includes("Confidence Interval")
+                    ) {
+                      return false;
+                    }
+                    return true;
+                  }
+                }
               },
             },
             scales: {
