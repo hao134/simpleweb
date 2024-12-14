@@ -71,7 +71,7 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
       // "rgba(255, 255, 0, 1)", // yellow
     ];
 
-    const datasets = warehouses.map((warehouse, index) => {
+    const datasets = warehouses.flatMap((warehouse, index) => {
       // 原始數據
       const historicalDataset = {
         label: `${warehouse} (Historical)`,
@@ -86,7 +86,7 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
         borderWidth: 2,
       };
 
-      // 預測數據
+      // 預測數據主線
       const predictionDataset = futureData.length
         ? {
             label: `${warehouse} (Prediction)`,
@@ -102,9 +102,49 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
             borderWidth: 2,
           }
         : null;
+      
+      // 預測數據信賴區間下界
+      const lowerBoundDataset = futureData.length
+        ? {
+            label: `${warehouse} (Lower Bound)`,
+            data: timestamps.map((timestamp) => {
+              const match = futureData.find(
+                (item) => item.location === warehouse && item.timestamp === timestamp
+              );
+              return match ? parseFloat(match.lower_bound) : null;
+            }),
+            borderColor: "rgba(0, 0, 0, 0)", //隱藏線條顏色
+            backgroundColor: predefinedColors[index % predefinedColors.length],
+            fill: "-1",
+            borderDash: [5, 5],
+            borderWidth: 0,
+            spanGaps: true,
+            pointRadius: 0,
+          }
+        : null;
+
+      // 預測數據信賴區間上界
+      const upperBoundDataset = futureData.length
+        ? {
+            label: `${warehouse} (Upper Bound)`,
+            data: timestamps.map((timestamp) =>{
+              const match = futureData.find(
+                (item) => item.location === warehouse && item.timestamp === timestamp
+              );
+              return match ? parseFloat(match.upper_bound) : null;
+            }),
+            borderColor: "rgba(0, 0, 0, 0)", //隱藏線條顏色
+            backgroundColor: predefinedColors[index % predefinedColors.length],
+            fill: "+1",
+            borderDash: [5, 5],
+            borderWidth: 0,
+            spanGaps: true,
+            pointRadius: 0,
+          }
+        : null;
 
       return futureData
-        ? [historicalDataset, predictionDataset] 
+        ? [historicalDataset, predictionDataset, lowerBoundDataset, upperBoundDataset] 
         : [historicalDataset];
     });
 
@@ -113,7 +153,7 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
       labels: timestamps.map((timestamp) => 
         moment(timestamp).format("YYYY-MM-DD HH:mm")
       ),
-      datasets: datasets.flat(),
+      datasets: datasets.flat().filter(Boolean), //過濾掉 null
     };
       
 
