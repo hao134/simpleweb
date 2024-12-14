@@ -25,21 +25,23 @@ def predict_temperature(data, periods = 12, freq = "H"):
 
     df = df.rename(columns={"timestamp": "ds", "temperature": "y"})
 
-    model = Prophet()
+    model = Prophet(interval_width=0.8)
     model.fit(df)
 
     future = model.make_future_dataframe(periods=periods, freq=freq)
     forecast = model.predict(future)
 
-    future_forecast = forecast.iloc[-periods:][["ds", "yhat"]]
+    future_forecast = forecast.iloc[-periods:][["ds", "yhat", "yhat_lower", "yhat_upper"]]
     return future_forecast.to_dict(orient="records")
 
 def insert_future_predictions_to_mongodb(predictions):
     """將預測數據插入到MongoDB"""
     # 轉換字段名稱
     for prediction in predictions:
-        prediction["timestamp"] = prediction.pop("ds")
-        prediction["temperature"] = prediction.pop("yhat")
+      prediction["timestamp"] = prediction.pop("ds")
+      prediction["temperature"] = prediction.pop("yhat")
+      prediction["lower_bound"] = prediction.pop("yhat_lower")
+      prediction["upper_bound"] = prediction.pop("yhat_upper")
 
     client = MongoClient(os.getenv("MONGODB_URI"))
     db = client["sensor_data_db"]
