@@ -105,48 +105,35 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
           }
         : null;
       
-      // 預測數據信賴區間下界
-      const lowerBoundDataset = futureData.length
+      // 預測數據信賴區間
+      const confidenceIntervalDataset = futureData.length
         ? {
-            label: `${warehouse} (Lower Bound)`,
-            data: timestamps.map((timestamp) => {
-              const match = futureData.find(
-                (item) => item.location === warehouse && item.timestamp === timestamp
-              );
-              return match ? parseFloat(match.lower_bound) : null;
-            }),
-            borderColor: "rgba(0, 0, 0, 0)", //隱藏線條顏色
-            backgroundColor: predefinedColors[index % predefinedColors.length],
-            fill: "-1",
-            borderDash: [5, 5],
-            borderWidth: 0,
-            spanGaps: true,
-            pointRadius: 0,
-          }
-        : null;
+            label: `${warehouse} (Confidence Interval)`,
+            data: timestamps.map((timestamp, idx) => {
+              const lowerMatch = futureData.find(
+                (item) => item.location === warehouse && item.timestamp === timestamp 
+              )?.lower_bound;
+              const upperMatch = futureData.find(
+                (item) => item.location === warehouse && item.timestamp === timestamp   
+              )?.upper_bound;
 
-      // 預測數據信賴區間上界
-      const upperBoundDataset = futureData.length
-        ? {
-            label: `${warehouse} (Upper Bound)`,
-            data: timestamps.map((timestamp) =>{
-              const match = futureData.find(
-                (item) => item.location === warehouse && item.timestamp === timestamp
-              );
-              return match ? parseFloat(match.upper_bound) : null;
+              return lowerMatch && upperMatch
+                ? { y: lowerMatch, y2: upperMatch }
+                : null;
             }),
-            borderColor: "rgba(0, 0, 0, 0)", //隱藏線條顏色
-            backgroundColor: predefinedColors[index % predefinedColors.length],
-            fill: "+1",
-            borderDash: [5, 5],
+            backgroundColor: predefinedColors[index % predefinedColors.length].replace(
+              "1)",
+              "0.2)"
+            ), //半透明背景
+            fill: true,
             borderWidth: 0,
             spanGaps: true,
             pointRadius: 0,
-          }
-        : null;
+        }
+      : null;
 
       return futureData
-        ? [historicalDataset, predictionDataset, lowerBoundDataset, upperBoundDataset] 
+        ? [historicalDataset, predictionDataset, confidenceIntervalDataset] 
         : [historicalDataset];
     });
 
