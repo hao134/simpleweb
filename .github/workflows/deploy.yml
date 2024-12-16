@@ -27,10 +27,12 @@ jobs:
         EC2_USER: ${{ secrets.EC2_USER }}
         EC2_HOST: ${{ secrets.EC2_HOST }}
         MONGODB_URI: ${{ secrets.MONGODB_URIATEC2 }}
-        PUBLICIP: ${{ secrets.PUBLICIP }}
+        VITE_API_URL: ${{ secrets.VITE_API_URL }}
+        VITE_API_URL_FUTURE: ${{ secrets.VITE_API_URL_FUTURE }}
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
-          echo 'REACT_APP_PUBLIC_IP=${PUBLICIP}' > ~/simpleweb/frontend/.env
+          echo 'VITE_API_URL=${VITE_API_URL}' > ~/simpleweb/frontend/.env &&
+          echo 'VITE_API_URL_FUTURE=${VITE_API_URL_FUTURE}' > ~/simpleweb/frontend/.env
           echo 'MONGODB_URI=${MONGODB_URI}' > ~/simpleweb/.env &&
           echo 'PORT=3000' >> ~/simpleweb/.env &&
           echo 'PUBLICIP=${PUBLICIP}' >> ~/simpleweb/.env
