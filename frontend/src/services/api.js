@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const fetchTemperatureData = async () => {
-    const API_BASE_URL = "https://98.84.242.113/api/temperature_data";
+    const API_BASE_URL = import.meta.env.VITE_API_URL;
     try {
         const response = await axios.get(API_BASE_URL);
         return response.data; // Axios 的返回數據在 data 屬性中
@@ -20,7 +20,7 @@ export const fetchTemperatureData = async () => {
 }
 
 export const fetchFuturePredictions = async () => {
-    const API_BASE_URL = "https://98.84.242.113/api/future_temperature_data";
+    const API_BASE_URL = import.meta.env.VITE_API_URL_FUTURE;
     try {
         const response = await axios.get(API_BASE_URL);
         return response.data; // Axios 的返回數據在 data 屬性中
