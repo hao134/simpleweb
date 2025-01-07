@@ -68,6 +68,20 @@ app.get('/api/temperature_realdata', async (req, res) => {
   }
 });
 
+// 新增的 /api/future_realtemperature_data 路由
+app.get('/api/future_realtemperature_data', async (req, res) => {
+  console.log("Received request for /api/future_realtemperature_data");
+
+  try {
+    const futuretemperatureRData = await db.collection('future_temperature_realdata').find({}).toArray();
+    console.log("Data fetched from 'future_temperature_realdata':", futuretemperatureRData);
+    res.json(futuretemperatureRData);
+  } catch (error) {
+    console.error("Error fetching data from 'future_temperature_realdata':", error);
+    res.status(500).json({ error: "Failed to fetch data from 'future_temperature_realdata'" });
+  }
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

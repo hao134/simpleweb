@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import FilterControls from "./components/FilterControls";
 import ChartDisplay from "./components/ChartDisplay";
-import { fetchTemperatureData, fetchFuturePredictions } from "./services/api";
+import { fetchTemperatureData, fetchFuturePredictions, fetchTemperaturerData, fetchFuturerPredictions } from "./services/api";
 
 
 const App = () => {
   const [data, setData] = useState([]);
+  const [rdata, setrData] = useState([])
   const [filteredData, setFilteredData] = useState([]);
+  const [filteredrData, setFilteredrData] = useState([]);
   const [futureData, setFutureData] = useState([]); //預測數據
+  const [futurerData, setFuturerData] = useState([]);
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [selectedWarehouse, setSelectedWarehouse] = useState(["All"]);
   const [error, setError] = useState(null);
@@ -18,6 +21,7 @@ const App = () => {
     setActiveTab(tabName);
   };
   
+  // -------------------- faked data --------------------------------
   // 當初次進入時獲取歷史資料
   useEffect(() => {
     fetchTemperatureData()
@@ -46,6 +50,36 @@ const App = () => {
     });
     setFilteredData(filtered)
   }, [data, dateRange, selectedWarehouse]);
+
+  // -------------------- real data --------------------------------
+  // 當初次進入時獲取歷史資料
+  useEffect(() => {
+    fetchTemperaturerData()
+      .then((fetchedData) => setrData(fetchedData))
+      .catch((error) => {setError(error.message);});
+  }, []);
+
+  useEffect(() => {
+    fetchFuturerPredictions()
+      .then((predictions) => setFuturerData(predictions))
+      .catch((error) => {setError(error.message);});
+  }, []);
+
+  // 根據user選擇來過濾資料
+  useEffect(() => {
+    const filtered= rdata.filter((item) => {
+      const date = new Date(item.timestamp);
+      const inDateRange =
+        (!dateRange.start || date >= new Date(dateRange.start)) &&
+        (!dateRange.end || date <= new Date(dateRange.end));
+
+      const matchesWarehouse =
+        selectedWarehouse.includes("All") || 
+        selectedWarehouse.includes(item.location);
+      return inDateRange && matchesWarehouse;
+    });
+    setFilteredrData(filtered)
+  }, [rdata, dateRange, selectedWarehouse]);
 
   
   if (error) {
@@ -118,7 +152,7 @@ const App = () => {
                 setSelectedWarehouses={setSelectedWarehouse}
               />
               <ChartDisplay
-                data={filteredData} 
+                data={filteredrData} 
                 title="Filtered Historical Data"
                 historyLimit={102}
               />
@@ -126,7 +160,7 @@ const App = () => {
             <div className="col-12">
               <ChartDisplay 
                 data={data} 
-                futureData={futureData} 
+                futureData={futurerData} 
                 title="Historical + Predictions (All Warehouses)"
                 historyLimit={36}  
               />

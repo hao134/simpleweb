@@ -32,10 +32,12 @@ jobs:
         OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
         VITE_API_URL: ${{ secrets.VITE_API_URL }}
         VITE_API_URL_FUTURE: ${{ secrets.VITE_API_URL_FUTURE }}
+        VITE_API_URL_REAL: ${{ secrets.VITE_API_URL_REAL }}
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
           echo 'VITE_API_URL=${VITE_API_URL}' > ~/simpleweb/frontend/.env &&
           echo 'VITE_API_URL_FUTURE=${VITE_API_URL_FUTURE}' >> ~/simpleweb/frontend/.env &&
+          echo 'VITE_API_URL_REAL=${VITE_API_URL_REAL}' >> ~/simpleweb/frontend/.env &&
           echo 'MONGODB_URI=${MONGODB_URI}' > ~/simpleweb/.env &&
           echo 'PORT=3000' >> ~/simpleweb/.env &&
           echo 'OPENWEATHER_KEY=${OPENWEATHER_KEY}' >> ~/simpleweb/.env
@@ -120,13 +122,21 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas prophet pymongo
     
-    # 從 MongoDB 獲取數據並生成未來預測
-    - name: Generate future predictions using Prophet
+    # 從 MongoDB 獲取假數據並生成未來預測
+    - name: Generate future faked data predictions using Prophet
       env:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
       run: |
         python predict_future_temperatures.py &&
-        echo 'Future predictions generated successfully'
+        echo 'Future predictions faked generated successfully'
+    
+    # 從 MongoDB 獲取真實數據並生成未來預測
+    - name: Generate future real data predictions using Prophet
+      env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      run: |
+        python predict_future_temperatures_real.py &&
+        echo 'Future predictions real generated successfully'
 
     # 保存日誌到 EC2
     - name: Save log file to EC2
