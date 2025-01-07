@@ -162,11 +162,12 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
       
 
     return (
-      <div>
+      <div style={{ width: "100%", height: "600px" }}>
         <h2>{title}</h2>
         <Line
           data={chartData}
           options={{
+            maintainAspectRatio: false,
             responsive: true,
             plugins: {
               legend: {
