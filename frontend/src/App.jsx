@@ -11,6 +11,12 @@ const App = () => {
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [selectedWarehouse, setSelectedWarehouse] = useState(["All"]);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("faked")
+
+  // Tab 切換 handle
+  const handleTabChange = (tabName) => {
+    setActiveTab(tabName);
+  };
   
   // 當初次進入時獲取歷史資料
   useEffect(() => {
@@ -47,29 +53,82 @@ const App = () => {
   }
   
   return (
-    <div>
+    <div className="container-fluid">
       <h1>Temperature Data Visualization</h1>
+      <ul className="nav nav-tabs">
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "faked" ? "active" : ""}`}
+            onClick={() => handleTabChange("faked")}
+          >
+            假資料(Faked)
+          </button>
+        </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${activeTab === "real" ? "active" : ""}`}
+            onClick={() => handleTabChange("real")}
+          >
+            真資料(Real)
+          </button>
+        </li>
+      </ul>
 
-      {/* 上方圖表:歷史數據(可篩選) */}
-      <FilterControls
-        data={data}
-        dateRange={dateRange}
-        selectedWarehouses={selectedWarehouse}
-        setDateRange={setDateRange}
-        setSelectedWarehouses={setSelectedWarehouse}
-      />
-      <ChartDisplay
-        data={filteredData} 
-        title="Filtered Historical Data"
-        historyLimit={102}
-      />
-      {/*下方圖表:歷史數據+預測數據*/}
-      <ChartDisplay 
-        data={data} 
-        futureData={futureData} 
-        title="Historical + Predictions (All Warehouses)"
-        historyLimit={36}  
-      />
+      {activeTab === "faked" && (
+
+        <div className="mt-3">
+          <div className="col-6">
+            <FilterControls
+              data={data}
+              dateRange={dateRange}
+              selectedWarehouses={selectedWarehouse}
+              setDateRange={setDateRange}
+              setSelectedWarehouses={setSelectedWarehouse}
+            />
+            <ChartDisplay
+              data={filteredData} 
+              title="Filtered Historical Data"
+              historyLimit={102}
+            />
+          </div>
+          <div className="col-6">
+            <ChartDisplay 
+              data={data} 
+              futureData={futureData} 
+              title="Historical + Predictions (All Warehouses)"
+              historyLimit={36}  
+            />
+          </div>
+        </div>
+      )}
+
+      {activeTab === "real" && (
+
+        <div className="mt-3">
+          <div className="col-6">
+            <FilterControls
+              data={data}
+              dateRange={dateRange}
+              selectedWarehouses={selectedWarehouse}
+              setDateRange={setDateRange}
+              setSelectedWarehouses={setSelectedWarehouse}
+            />
+            <ChartDisplay
+              data={filteredData} 
+              title="Filtered Historical Data"
+              historyLimit={102}
+            />
+          </div>
+          <div className="col-6">
+            <ChartDisplay 
+              data={data} 
+              futureData={futureData} 
+              title="Historical + Predictions (All Warehouses)"
+              historyLimit={36}  
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

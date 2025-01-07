@@ -3,7 +3,6 @@ import requests
 import datetime
 import os
 
-# 設定您的 OpenWeatherMap API 金鑰
 API_KEY = os.getenv("OPENWEATHER_KEY")
 
 # 定義目標地點的地理座標
