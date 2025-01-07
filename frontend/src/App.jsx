@@ -77,55 +77,60 @@ const App = () => {
       {activeTab === "faked" && (
 
         <div className="mt-3">
-          <div className="col-6">
-            <FilterControls
-              data={data}
-              dateRange={dateRange}
-              selectedWarehouses={selectedWarehouse}
-              setDateRange={setDateRange}
-              setSelectedWarehouses={setSelectedWarehouse}
-            />
-            <ChartDisplay
-              data={filteredData} 
-              title="Filtered Historical Data"
-              historyLimit={102}
-            />
+          <div className="row">
+            <div className="col-6">
+              <FilterControls
+                data={data}
+                dateRange={dateRange}
+                selectedWarehouses={selectedWarehouse}
+                setDateRange={setDateRange}
+                setSelectedWarehouses={setSelectedWarehouse}
+              />
+              <ChartDisplay
+                data={filteredData} 
+                title="Filtered Historical Data"
+                historyLimit={102}
+              />
+            </div>
+            <div className="col-6">
+              <ChartDisplay 
+                data={data} 
+                futureData={futureData} 
+                title="Historical + Predictions (All Warehouses)"
+                historyLimit={36}  
+              />
+            </div>
           </div>
-          <div className="col-6">
-            <ChartDisplay 
-              data={data} 
-              futureData={futureData} 
-              title="Historical + Predictions (All Warehouses)"
-              historyLimit={36}  
-            />
-          </div>
+          
         </div>
       )}
 
       {activeTab === "real" && (
 
         <div className="mt-3">
-          <div className="col-6">
-            <FilterControls
-              data={data}
-              dateRange={dateRange}
-              selectedWarehouses={selectedWarehouse}
-              setDateRange={setDateRange}
-              setSelectedWarehouses={setSelectedWarehouse}
-            />
-            <ChartDisplay
-              data={filteredData} 
-              title="Filtered Historical Data"
-              historyLimit={102}
-            />
-          </div>
-          <div className="col-6">
-            <ChartDisplay 
-              data={data} 
-              futureData={futureData} 
-              title="Historical + Predictions (All Warehouses)"
-              historyLimit={36}  
-            />
+          <div className="row">
+            <div className="col-6">
+              <FilterControls
+                data={data}
+                dateRange={dateRange}
+                selectedWarehouses={selectedWarehouse}
+                setDateRange={setDateRange}
+                setSelectedWarehouses={setSelectedWarehouse}
+              />
+              <ChartDisplay
+                data={filteredData} 
+                title="Filtered Historical Data"
+                historyLimit={102}
+              />
+            </div>
+            <div className="col-6">
+              <ChartDisplay 
+                data={data} 
+                futureData={futureData} 
+                title="Historical + Predictions (All Warehouses)"
+                historyLimit={36}  
+              />
+            </div>
           </div>
         </div>
       )}
