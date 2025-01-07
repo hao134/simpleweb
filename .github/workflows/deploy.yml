@@ -95,21 +95,22 @@ jobs:
         python generate_faked_data.py &&
         echo 'Generated new temperature data'
 
-    # # 在EC2上生成真溫度數據
-    # - name: Generate new temperature data on EC2
-    #   env:
-    #     OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
-    #   run: |
-    #     python getrealtemp.py &&
-    #     echo 'Get new temperature data'
+    # 在EC2上生成真溫度數據
+    - name: Generate new temperature data on EC2
+      env:
+        OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
+      run: |
+        python getrealtemp.py &&
+        echo 'Get new temperature data'
         
     # 更新 MondoDB 數據
     - name: Update MongoDB with JSON data
       env:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
       run: |
-        python -m pip install pymongo &&# 安裝pymongo
-        python update_mongodb.py &&     # 執行更新腳本
+        python -m pip install pymongo && # 安裝pymongo
+        python update_mongodb.py &&      # 執行更新腳本
+        python update_mongodb_real.py &&
         echo 'MongoDB updated successfully'
     
     # 設置 Python 環境
