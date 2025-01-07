@@ -33,11 +33,13 @@ jobs:
         VITE_API_URL: ${{ secrets.VITE_API_URL }}
         VITE_API_URL_FUTURE: ${{ secrets.VITE_API_URL_FUTURE }}
         VITE_API_URL_REAL: ${{ secrets.VITE_API_URL_REAL }}
+        VITE_API_URL_FUTURE_REAL: ${{ secrets.VITE_API_URL_FUTURE_REAL }}
       run: |
         ssh -i ~/.ssh/deploy_key $EC2_USER@$EC2_HOST "
           echo 'VITE_API_URL=${VITE_API_URL}' > ~/simpleweb/frontend/.env &&
           echo 'VITE_API_URL_FUTURE=${VITE_API_URL_FUTURE}' >> ~/simpleweb/frontend/.env &&
           echo 'VITE_API_URL_REAL=${VITE_API_URL_REAL}' >> ~/simpleweb/frontend/.env &&
+          echo 'VITE_API_URL_FUTURE_REAL=${VITE_API_URL_FUTURE_REAL}' >> ~/simpleweb/frontend/.env &&
           echo 'MONGODB_URI=${MONGODB_URI}' > ~/simpleweb/.env &&
           echo 'PORT=3000' >> ~/simpleweb/.env &&
           echo 'OPENWEATHER_KEY=${OPENWEATHER_KEY}' >> ~/simpleweb/.env
