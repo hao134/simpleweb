@@ -1,0 +1,152 @@
+[
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T10:25:01.987552Z",
+        "temperature": 22.0
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T09:25:01.987552Z",
+        "temperature": 20.2
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T08:25:01.987552Z",
+        "temperature": 27.6
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T07:25:01.987552Z",
+        "temperature": 22.0
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T06:25:01.987552Z",
+        "temperature": 20.2
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T05:25:01.987552Z",
+        "temperature": 27.6
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T04:25:01.987552Z",
+        "temperature": 22.0
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T03:25:01.987552Z",
+        "temperature": 20.2
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T02:25:01.987552Z",
+        "temperature": 27.6
+    },
+    {
+        "location": "台北",
+        "timestamp": "2025-01-06T01:25:01.987552Z",
+        "temperature": 22.0
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-06T10:25:01.987552Z",
+        "temperature": 21.2
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-06T09:25:01.987552Z",
+        "temperature": 29.0
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-06T08:25:01.987552Z",
+        "temperature": 28.3
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-06T07:25:01.987552Z",
+        "temperature": 21.2
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-06T06:25:01.987552Z",
+        "temperature": 29.0
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-06T05:25:01.987552Z",
+        "temperature": 28.3
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-06T04:25:01.987552Z",
+        "temperature": 21.2
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-6T03:25:01.987552Z",
+        "temperature": 29.0
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-6T02:25:01.987552Z",
+        "temperature": 28.3
+    },
+    {
+        "location": "高雄",
+        "timestamp": "2025-01-06T01:25:01.987552Z",
+        "temperature": 28.3
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T10:25:01.987552Z",
+        "temperature": 5.2
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T09:25:01.987552Z",
+        "temperature": 1.6
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T08:25:01.987552Z",
+        "temperature": 5.4
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T07:25:01.987552Z",
+        "temperature": 2.2
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T06:25:01.987552Z",
+        "temperature": 3.6
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T05:25:01.987552Z",
+        "temperature": 7.7
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T04:25:01.987552Z",
+        "temperature": 4.5
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T03:25:01.987552Z",
+        "temperature": 8.6
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T02:25:01.987552Z",
+        "temperature": 7.4
+    },
+    {
+        "location": "玉山",
+        "timestamp": "2025-01-06T01:25:01.987552Z",
+        "temperature": 4.2
+    }
+]
