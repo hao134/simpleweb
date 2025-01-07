@@ -73,3 +73,4 @@ update data
 
 # 0107
 1. 添加變量在ec2
+2. test again
