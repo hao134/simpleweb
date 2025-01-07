@@ -53,7 +53,7 @@ const App = () => {
   }
   
   return (
-    <div className="container-fluid p-0">
+    <div className="container-fluid">
       <h1>Temperature Data Visualization</h1>
       <ul className="nav nav-tabs">
         <li className="nav-item">
@@ -77,7 +77,7 @@ const App = () => {
       {activeTab === "faked" && (
 
         <div className="mt-3">
-          <div className="row g-0">
+          <div className="row">
             <div className="col-12">
               <FilterControls
                 data={data}
@@ -109,7 +109,7 @@ const App = () => {
 
         <div className="mt-3">
           <div className="row">
-            <div className="col-6">
+            <div className="col-12">
               <FilterControls
                 data={data}
                 dateRange={dateRange}
@@ -123,7 +123,7 @@ const App = () => {
                 historyLimit={102}
               />
             </div>
-            <div className="col-6">
+            <div className="col-12">
               <ChartDisplay 
                 data={data} 
                 futureData={futureData} 
