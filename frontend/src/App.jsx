@@ -77,8 +77,8 @@ const App = () => {
       {activeTab === "faked" && (
 
         <div className="mt-3">
-          <div className="row">
-            <div className="col-6">
+          <div className="d-flex justify-content-between">
+            <div style={{ width: "48%" }}>
               <FilterControls
                 data={data}
                 dateRange={dateRange}
@@ -92,7 +92,7 @@ const App = () => {
                 historyLimit={102}
               />
             </div>
-            <div className="col-6">
+            <div style={{ width: "48%" }}>
               <ChartDisplay 
                 data={data} 
                 futureData={futureData} 
