@@ -70,3 +70,6 @@ update temperature data
 
 # 0102
 update data
+
+# 0107
+1. 添加變量在ec2
