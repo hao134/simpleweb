@@ -53,7 +53,7 @@ const App = () => {
   }
   
   return (
-    <div className="container-fluid">
+    <div className="container-fluid p-0">
       <h1>Temperature Data Visualization</h1>
       <ul className="nav nav-tabs">
         <li className="nav-item">
@@ -77,8 +77,8 @@ const App = () => {
       {activeTab === "faked" && (
 
         <div className="mt-3">
-          <div className="d-flex justify-content-between">
-            <div style={{ width: "48%" }}>
+          <div className="row g-0">
+            <div className="col-6">
               <FilterControls
                 data={data}
                 dateRange={dateRange}
@@ -92,7 +92,7 @@ const App = () => {
                 historyLimit={102}
               />
             </div>
-            <div style={{ width: "48%" }}>
+            <div className="col-6">
               <ChartDisplay 
                 data={data} 
                 futureData={futureData} 
