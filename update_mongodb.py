@@ -38,7 +38,7 @@ try:
     logging.info("Connected to Database")
 
     # 打開 JSON 文件並讀取數據
-    with open("temperature_data.json", "r") as file:
+    with open("temperature_realdata.json", "r") as file:
         data = json.load(file)
         operations = []  # 批量操作儲存清單
 
