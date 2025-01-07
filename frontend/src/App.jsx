@@ -78,7 +78,7 @@ const App = () => {
 
         <div className="mt-3">
           <div className="row g-0">
-            <div className="col-6">
+            <div className="col-12">
               <FilterControls
                 data={data}
                 dateRange={dateRange}
@@ -92,7 +92,7 @@ const App = () => {
                 historyLimit={102}
               />
             </div>
-            <div className="col-6">
+            <div className="col-12">
               <ChartDisplay 
                 data={data} 
                 futureData={futureData} 
