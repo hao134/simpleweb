@@ -159,7 +159,7 @@ const App = () => {
             </div>
             <div className="col-12">
               <ChartDisplay 
-                data={data} 
+                data={rdata} 
                 futureData={futurerData} 
                 title="Historical + Predictions (All Warehouses)"
                 historyLimit={36}  
