@@ -2,10 +2,6 @@ import json
 import requests
 import datetime
 import os
-from dotenv import load_dotenv
-
-# 加載 .env 文件中的環境變數
-load_dotenv('/home/ec2-user/simpleweb/.env')  # 確保路徑正確
 
 # 設定您的 OpenWeatherMap API 金鑰
 API_KEY = os.getenv("OPENWEATHER_KEY")

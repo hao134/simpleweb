@@ -93,6 +93,8 @@ jobs:
 
     # 在EC2上生成真溫度數據
     - name: Generate new temperature data on EC2
+      env:
+        OPENWEATHER_API: ${{ secrets.OPENWEATHER_KEY }}
       run: |
         python getrealtemp.py &&
         echo 'Get new temperature data'
