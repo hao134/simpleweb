@@ -126,13 +126,15 @@ const App = () => {
                 historyLimit={102}
               />
             </div>
-            <div className="col-12">
-              <ChartDisplay 
-                data={data} 
-                futureData={futureData} 
-                title="Historical + Predictions (All Warehouses)"
-                historyLimit={36}  
-              />
+            <div className="mt-5">
+              <div className="col-12">
+                <ChartDisplay 
+                  data={data} 
+                  futureData={futureData} 
+                  title="Historical + Predictions (All Warehouses)"
+                  historyLimit={36}  
+                />
+              </div>
             </div>
           </div>
           
@@ -145,7 +147,7 @@ const App = () => {
           <div className="row">
             <div className="col-12">
               <FilterControls
-                data={data}
+                data={rdata}
                 dateRange={dateRange}
                 selectedWarehouses={selectedWarehouse}
                 setDateRange={setDateRange}
@@ -157,13 +159,15 @@ const App = () => {
                 historyLimit={102}
               />
             </div>
-            <div className="col-12">
-              <ChartDisplay 
-                data={rdata} 
-                futureData={futurerData} 
-                title="Historical + Predictions (All Warehouses)"
-                historyLimit={36}  
-              />
+            <div className="mt-5">
+              <div className="col-12">
+                <ChartDisplay 
+                  data={rdata} 
+                  futureData={futurerData} 
+                  title="Historical + Predictions (All Location)"
+                  historyLimit={36}  
+                />
+              </div>
             </div>
           </div>
         </div>
