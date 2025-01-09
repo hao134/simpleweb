@@ -38,7 +38,7 @@ const ComparisonChartDisplay = ({
     const sortedPred = [...predictedData].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
     // 擷取最近 limit 筆
-    const limitedReal = sortedData = sortedData.slice(Math.max(sortedData.length - limit, 0));
+    const limitedData = sortedData = sortedData.slice(Math.max(sortedData.length - limit, 0));
     const limitedPred = sortedData = sortedPred.slice(Math.max(sortedPred.length - limit, 0));
 
     // 合併 timestamps 供 X 軸顯示
@@ -56,7 +56,7 @@ const ComparisonChartDisplay = ({
     const realLine = {
         label: "Real Temperature",
         data: uniqueTimestamps.map((t) => {
-            const match = limitedReal.find((d) => d.timestamp === t);
+            const match = limitedData.find((d) => d.timestamp === t);
             return match ? parseFloat(match.temperature) : null;
         }),
         borderColor: "rgba(255, 0, 0, 1)", // red

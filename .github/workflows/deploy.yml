@@ -123,7 +123,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pandas prophet pymongo
+        pip install pandas prophet pymongo pytz
     
     # 從 MongoDB 獲取假數據並生成未來預測
     - name: Generate future faked data predictions using Prophet

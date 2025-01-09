@@ -3,6 +3,8 @@ from prophet import Prophet
 from pymongo import MongoClient
 import os
 import json
+from datetime import datetime
+import pytz
 
 def get_data_from_mongodb():
     """從MongoDB獲取完整數據"""
@@ -12,7 +14,7 @@ def get_data_from_mongodb():
     data = list(collection.find({}, {"_id": 0, "location": 1, "timestamp": 1, "temperature": 1}))
     return data
 
-def predict_temperature(data, periods = 12, freq = "H"):
+def predict_temperature(data, periods = 8, freq = "H"):
     """使用 Prophet 預測未來數據"""
     df = pd.DataFrame(data)
     #將timestamp轉換為datetime格式
@@ -36,6 +38,9 @@ def predict_temperature(data, periods = 12, freq = "H"):
 
 def insert_future_predictions_to_mongodb(predictions):
     """將預測數據插入到MongoDB"""
+    # 產生一個「本批次生成時間」欄位
+    forecast_generated_at = datetime.now(pytz.timezone("Asia/Taipei")).isoformat()
+
     # 轉換字段名稱
     for prediction in predictions:
       prediction["timestamp"] = prediction.pop("ds")
@@ -43,17 +48,19 @@ def insert_future_predictions_to_mongodb(predictions):
       prediction["lower_bound"] = prediction.pop("yhat_lower")
       prediction["upper_bound"] = prediction.pop("yhat_upper")
 
+      prediction["forecast_generated_at"] = forecast_generated_at
+
     client = MongoClient(os.getenv("MONGODB_URI"))
     db = client["sensor_data_db"]
     collection = db["future_temperature_data"]
 
     # 刪除舊數據
-    collection.delete_many({})
+    #collection.delete_many({})
     print("Old future data deleted")
 
     # 插入新數據
     collection.insert_many(predictions)
-    print("New future temperature data inserted.")
+    print("New future temperature data inserted. (forecast_generated_at = {forecast_generated_at})")
 
 if __name__ == "__main__":
     # 從 MongoDB獲取數據
