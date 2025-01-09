@@ -27,6 +27,19 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
     if (!data.length) {
       return <p>No data available for {title}</p>;
     }
+
+    // 若資料庫保留了多批預測，我們只保留「最新」那批
+    const getLatestBatchFutureData = (allFuture) => {
+      if (!allFuture.length) return [];
+      // 收集所有 forecast_generated_at
+      const allBatches = [...new Set(allFuture.map(d => d.forecast_generated_at))];
+      // 排序後拿最後一個 (最新的時間字串)
+      const latestBatch = allBatches.sort().pop();
+      // 過濾出屬於該批次的預測
+      return allFuture.filter(d => d.forecast_generated_at === latestBatch);
+    }
+
+    const futureDataLatest = getLatestBatchFutureData(futureData)
     
     // 限制數據點到最近的個數(limit)，並確保排序
     const limitData = (data, limit) => {
@@ -88,8 +101,9 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
         borderWidth: 2,
         fill: false //不填滿
       };
-
-      if (!futureData.length) {
+      
+      // 如果根本沒有預測資料，就只回傳 historical
+      if (!futureDataLatest.length) {
         return [historicalDataset];
       }
 
