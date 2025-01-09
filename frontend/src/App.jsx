@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FilterControls from "./components/FilterControls";
 import ChartDisplay from "./components/ChartDisplay";
+import ComparisonChartDisplay from "./components/ComparisonChartDisplay";
 import { fetchTemperatureData, fetchFuturePredictions, fetchTemperaturerData, fetchFuturerPredictions } from "./services/api";
 
 
@@ -112,6 +113,7 @@ const App = () => {
 
         <div className="mt-3">
           <div className="row">
+            {/* 第一張圖: 歷史資料 */}
             <div className="col-12">
               <FilterControls
                 data={data}
@@ -126,15 +128,25 @@ const App = () => {
                 historyLimit={102}
               />
             </div>
-            <div className="mt-5">
-              <div className="col-12">
-                <ChartDisplay 
-                  data={data} 
-                  futureData={futureData} 
-                  title="Historical + Predictions (All Warehouses)"
-                  historyLimit={36}  
-                />
-              </div>
+
+            {/* 第二張圖: 歷史 + 預測 */}
+            <div className="col-12 mt-5">
+              <ChartDisplay 
+                data={data} 
+                futureData={futureData} 
+                title="Historical + Predictions (All Warehouses)"
+                historyLimit={36}  
+              />
+            </div>
+
+            {/* 第三張圖*/}
+            <div className="col-12 mt-5">
+              <ComparisonChartDisplay
+                title="(Real) Comparison: Actual vs. Predicted"
+                data={data}
+                predictedData={futureData}
+                limit={36}
+              />
             </div>
           </div>
           
