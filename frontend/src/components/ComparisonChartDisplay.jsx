@@ -29,7 +29,7 @@ const ComparisonChartDisplay = ({
     predictedData = [], 
     limit = 36 
 }) => {
-    if (!data.length && !data.length) {
+    if (!data.length && !predictedData.length) {
       return <p>No data available for comparison</p>;
     }
 

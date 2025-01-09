@@ -111,7 +111,7 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
       const predictionDataset = {
             label: `${warehouse} (Prediction)`,
             data: timestamps.map((timestamp) => {
-              const match = futureData.find(
+              const match = futureDataLatest.find(
                 (item) => item.location === warehouse && item.timestamp === timestamp
               );
               return match ? parseFloat(match.temperature) : null;
