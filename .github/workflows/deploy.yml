@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - 'feature/*'
+      - main
   schedule:
     - cron: '*/30 * * * *' # 每半小時觸發一次
 
