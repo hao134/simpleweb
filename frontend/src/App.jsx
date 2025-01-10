@@ -171,7 +171,7 @@ const App = () => {
                 title="(Faked) Comparison: Actual vs. Predicted"
                 data={data}
                 predictedData={futureData}
-                limit={2000}
+                limit={72}
               />
             </div>
           </div>
