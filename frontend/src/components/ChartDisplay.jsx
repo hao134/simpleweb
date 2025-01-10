@@ -27,7 +27,7 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
     if (!data.length) {
       return <p>No data available for {title}</p>;
     }
-    
+  
     // 限制數據點到最近的個數(limit)，並確保排序
     const limitData = (data, limit) => {
       const sortedData = [...data].sort(
@@ -88,7 +88,8 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
         borderWidth: 2,
         fill: false //不填滿
       };
-
+      
+      // 如果根本沒有預測資料，就只回傳 historical
       if (!futureData.length) {
         return [historicalDataset];
       }

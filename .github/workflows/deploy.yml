@@ -1,6 +1,9 @@
 name: Deploy to EC2
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '*/30 * * * *' # 每半小時觸發一次
 
@@ -92,13 +95,13 @@ jobs:
         python generate_faked_data.py &&
         echo 'Generated new temperature data'
 
-    # 在EC2上生成真溫度數據
-    - name: Generate new temperature data on EC2
-      env:
-        OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
-      run: |
-        python getrealtemp.py &&
-        echo 'Get new temperature data'
+    # # 在EC2上生成真溫度數據
+    # - name: Generate new temperature data on EC2
+    #   env:
+    #     OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
+    #   run: |
+    #     python getrealtemp.py &&
+    #     echo 'Get new temperature data'
         
     # 更新 MondoDB 數據
     - name: Update MongoDB with JSON data
@@ -120,7 +123,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pandas prophet pymongo
+        pip install pandas prophet pymongo pytz
     
     # 從 MongoDB 獲取假數據並生成未來預測
     - name: Generate future faked data predictions using Prophet
@@ -130,13 +133,13 @@ jobs:
         python predict_future_temperatures.py &&
         echo 'Future predictions faked generated successfully'
     
-    # 從 MongoDB 獲取真實數據並生成未來預測
-    - name: Generate future real data predictions using Prophet
-      env:
-        MONGODB_URI: ${{ secrets.MONGODB_URI }}
-      run: |
-        python predict_future_temperatures_real.py &&
-        echo 'Future predictions real generated successfully'
+    # # 從 MongoDB 獲取真實數據並生成未來預測
+    # - name: Generate future real data predictions using Prophet
+    #   env:
+    #     MONGODB_URI: ${{ secrets.MONGODB_URI }}
+    #   run: |
+    #     python predict_future_temperatures_real.py &&
+    #     echo 'Future predictions real generated successfully'
 
     # 保存日誌到 EC2
     - name: Save log file to EC2
