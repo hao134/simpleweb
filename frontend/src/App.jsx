@@ -43,12 +43,21 @@ const App = () => {
       setLatestFutureData([]);
       return;
     }
+
+    // 1. 先排除沒有 forecast_generated_at 的舊資料
+    const validFuture = futureData.filter(d => d.forecast_generated_at);
+
+    // 如果 validFuture 是空的，就代表舊的資料都沒 batch
+    if (!validFuture.length) {
+      setLatestFutureData([]);
+      return;
+    }
     // 1. 收集所有 forecast_generated_at
-    const allBatches = [...new Set(futureData.map(d => d.forecast_generated_at))];
+    const allBatches = [...new Set(validFuture.map(d => d.forecast_generated_at))];
     // 2. 取最後一個(最新批次)
     const latestBatch = allBatches.sort().pop();
     // 3. 過濾出該批次資料
-    const filtered = futureData.filter(d => d.forecast_generated_at === latestBatch);
+    const filtered = validFuture.filter(d => d.forecast_generated_at === latestBatch);
     setLatestFutureData(filtered)
   }, [futureData])
 

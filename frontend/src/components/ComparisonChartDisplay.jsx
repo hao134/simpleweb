@@ -32,6 +32,7 @@ const ComparisonChartDisplay = ({
     if (!data.length && !predictedData.length) {
       return <p>No data available for comparison</p>;
     }
+    console.log(data, predictedData)
 
     // 先排序各自資料
     const sortedData = [...data].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
