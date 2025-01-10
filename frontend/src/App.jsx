@@ -7,6 +7,7 @@ import { fetchTemperatureData, fetchFuturePredictions, fetchTemperaturerData, fe
 
 const App = () => {
   const [data, setData] = useState([]);
+  const [latestFutureData, setLatestFutureData] = useState([])
   const [rdata, setrData] = useState([])
   const [filteredData, setFilteredData] = useState([]);
   const [filteredrData, setFilteredrData] = useState([]);
@@ -35,6 +36,21 @@ const App = () => {
       .then((predictions) => setFutureData(predictions))
       .catch((error) => {setError(error.message);});
   }, []);
+
+  // 當 futureData 改變，就重新計算最新批次
+  useEffect(() => {
+    if(!futureData.length) {
+      setLatestFutureData([]);
+      return;
+    }
+    // 1. 收集所有 forecast_generated_at
+    const allBatches = [...new Set(futureData.map(d => d.forecast_generated_at))];
+    // 2. 取最後一個(最新批次)
+    const latestBatch = allBatches.sort().pop();
+    // 3. 過濾出該批次資料
+    const filtered = futureData.filter(d => d.forecast_generated_at === latestBatch);
+    setLatestFutureData(filtered)
+  }, [futureData])
 
   // 根據user選擇來過濾資料
   useEffect(() => {
@@ -133,7 +149,7 @@ const App = () => {
             <div className="col-12 mt-5">
               <ChartDisplay 
                 data={data} 
-                futureData={futureData} 
+                futureData={latestFutureData} 
                 title="Historical + Predictions (All Warehouses)"
                 historyLimit={36}  
               />
@@ -142,9 +158,9 @@ const App = () => {
             {/* 第三張圖*/}
             <div className="col-12 mt-5">
               <ComparisonChartDisplay
-                title="(Real) Comparison: Actual vs. Predicted"
+                title="(Faked) Comparison: Actual vs. Predicted"
                 data={data}
-                predictedData={futureData}
+                predictedData={latestFutureData}
                 limit={36}
               />
             </div>
