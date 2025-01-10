@@ -162,8 +162,7 @@ const App = () => {
                 title="Historical + Predictions (All Warehouses)"
                 historyLimit={36}  
               />
-              console.log("latestFutureData")
-              console.log(latestFutureData)
+              {console.log("latestFutureData => ", latestFutureData)}
             </div>
 
             {/* 第三張圖*/}
