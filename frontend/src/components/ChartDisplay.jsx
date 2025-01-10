@@ -90,7 +90,7 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
       };
       
       // 如果根本沒有預測資料，就只回傳 historical
-      if (!futureDataLatest.length) {
+      if (!futureData.length) {
         return [historicalDataset];
       }
 
@@ -98,7 +98,7 @@ const ChartDisplay = ({ data, title, futureData = [], historyLimit = 102 }) => {
       const predictionDataset = {
             label: `${warehouse} (Prediction)`,
             data: timestamps.map((timestamp) => {
-              const match = futureDataLatest.find(
+              const match = futureData.find(
                 (item) => item.location === warehouse && item.timestamp === timestamp
               );
               return match ? parseFloat(match.temperature) : null;

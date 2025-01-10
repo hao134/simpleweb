@@ -59,7 +59,7 @@ const App = () => {
     // 3. 過濾出該批次資料
     const filtered = validFuture.filter(d => d.forecast_generated_at === latestBatch);
     setLatestFutureData(filtered)
-  }, [])
+  }, [futureData])
 
   // 根據user選擇來過濾資料
   useEffect(() => {
@@ -162,6 +162,8 @@ const App = () => {
                 title="Historical + Predictions (All Warehouses)"
                 historyLimit={36}  
               />
+              console.log("latestFutureData")
+              console.log(latestFutureData)
             </div>
 
             {/* 第三張圖*/}
