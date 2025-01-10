@@ -170,7 +170,7 @@ const App = () => {
               <ComparisonChartDisplay
                 title="(Faked) Comparison: Actual vs. Predicted"
                 data={data}
-                predictedData={latestFutureData}
+                predictedData={futureData}
                 limit={36}
               />
             </div>
