@@ -37,7 +37,7 @@ const App = () => {
       .catch((error) => {setError(error.message);});
   }, []);
 
-  // 當 futureData 改變，就重新計算最新批次
+  // 重新計算最新批次
   useEffect(() => {
     if(!futureData.length) {
       setLatestFutureData([]);
@@ -59,7 +59,7 @@ const App = () => {
     // 3. 過濾出該批次資料
     const filtered = validFuture.filter(d => d.forecast_generated_at === latestBatch);
     setLatestFutureData(filtered)
-  }, [futureData])
+  }, [])
 
   // 根據user選擇來過濾資料
   useEffect(() => {
