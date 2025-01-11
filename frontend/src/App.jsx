@@ -253,8 +253,8 @@ const App = () => {
             <div className="col-4 mt-5">
               <ComparisonChartDisplay
                 title="(Real) Comparison: 台北"
-                data={data.filter(d => d.location === "台北")}
-                predictedData={futureData.filter(d => d.location === "台北")}
+                data={rdata.filter(d => d.location === "台北")}
+                predictedData={futurerData.filter(d => d.location === "台北")}
                 backPast={30}  //真實資料往前顯示30筆
                 backPred={20}  //預測資料往前20筆
                 fwdPred={10}   //預測資料往後10筆
@@ -263,8 +263,8 @@ const App = () => {
             <div className="col-4 mt-5">
               <ComparisonChartDisplay
                 title="(Real) Comparison: 高雄"
-                data={data.filter(d => d.location === "高雄")}
-                predictedData={futureData.filter(d => d.location === "高雄")}
+                data={rdata.filter(d => d.location === "高雄")}
+                predictedData={futurerData.filter(d => d.location === "高雄")}
                 backPast={30}  //真實資料往前顯示30筆
                 backPred={20}  //預測資料往前20筆
                 fwdPred={10}   //預測資料往後10筆
@@ -273,8 +273,8 @@ const App = () => {
             <div className="col-4 mt-5">
               <ComparisonChartDisplay
                 title="(Real) Comparison: 玉山"
-                data={data.filter(d => d.location === "玉山")}
-                predictedData={futureData.filter(d => d.location === "玉山")}
+                data={rdata.filter(d => d.location === "玉山")}
+                predictedData={futurerData.filter(d => d.location === "玉山")}
                 backPast={30}  //真實資料往前顯示30筆
                 backPred={20}  //預測資料往前20筆
                 fwdPred={10}   //預測資料往後10筆
