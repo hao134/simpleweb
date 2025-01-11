@@ -166,7 +166,7 @@ const App = () => {
             </div>
 
             {/* 第三張圖(第一地點)*/}
-            <div className="col-12 mt-5">
+            <div className="col-4 mt-5">
               <ComparisonChartDisplay
                 title="(Faked) Comparison: W1"
                 data={data.filter(d => d.location === "Warehouse 1")}
@@ -176,7 +176,7 @@ const App = () => {
                 fwdPred={10}   //預測資料往後30筆
               />
             </div>
-            <div className="col-12 mt-5">
+            <div className="col-4 mt-5">
               <ComparisonChartDisplay
                 title="(Faked) Comparison: W2"
                 data={data.filter(d => d.location === "Warehouse 2")}
@@ -186,7 +186,7 @@ const App = () => {
                 fwdPred={10}   //預測資料往後30筆
               />
             </div>
-            <div className="col-12 mt-5">
+            <div className="col-4 mt-5">
               <ComparisonChartDisplay
                 title="(Faked) Comparison: W3"
                 data={data.filter(d => d.location === "Warehouse 3")}
