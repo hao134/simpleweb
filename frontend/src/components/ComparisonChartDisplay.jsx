@@ -81,7 +81,9 @@ const ComparisonChartDisplay = ({
             return match ? parseFloat(match.temperature) : null;
         }),
         borderColor: "rgba(255, 0, 0, 1)", // red
-        fill: false
+        borderWidth: 2,
+        fill: false,
+        spanGaps: true
     }
 
     const predLine = {
@@ -92,7 +94,9 @@ const ComparisonChartDisplay = ({
         }),
         borderColor: "rgba(0, 0, 255, 1)", //blue
         borderDash: [5, 5], //虛線
-        fill: false 
+        borderWidth: 2,
+        fill: false,
+        spanGaps: true 
     };
 
     const chartData = {
