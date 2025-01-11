@@ -3,6 +3,8 @@ from prophet import Prophet
 from pymongo import MongoClient
 import os
 import json
+from datetime import datetime
+import pytz
 
 def get_data_from_mongodb():
     """從MongoDB獲取完整數據"""
@@ -36,6 +38,8 @@ def predict_temperature(data, periods = 12, freq = "H"):
 
 def insert_future_predictions_to_mongodb(predictions):
     """將預測數據插入到MongoDB"""
+    # 產生一個「本批次生次時間」欄位
+    forecast_generated_at = datetime.now(pytz.timezone("Asia/Taipei")).isoformat()
     # 轉換字段名稱
     for prediction in predictions:
       prediction["timestamp"] = prediction.pop("ds")
@@ -43,34 +47,36 @@ def insert_future_predictions_to_mongodb(predictions):
       prediction["lower_bound"] = prediction.pop("yhat_lower")
       prediction["upper_bound"] = prediction.pop("yhat_upper")
 
+      prediction["forecast_generated_at"] = forecast_generated_at
+
     client = MongoClient(os.getenv("MONGODB_URI"))
     db = client["sensor_data_db"]
     collection = db["future_temperature_realdata"]
 
-    # 刪除舊數據
-    collection.delete_many({})
-    print("Old future data deleted")
+    ## 刪除舊數據
+    # collection.delete_many({})
+    # print("Old future data deleted")
 
     # 插入新數據
     collection.insert_many(predictions)
-    print("New future temperature data inserted.")
+    print("New future temperature data inserted. (forecast_generated_at = {forecast_generated_at})")
 
 if __name__ == "__main__":
     # 從 MongoDB獲取數據
     raw_data = get_data_from_mongodb()
     # 分倉庫進行預測
-    warehouses =set(item["location"] for item in raw_data)
+    locations =set(item["location"] for item in raw_data)
     predictions = []
 
-    for warehouse in warehouses:
-        warehouse_data = [
+    for location in locations:
+        location_data = [
             {"timestamp": item["timestamp"], "temperature" : item["temperature"]}
             for item in raw_data
-            if item["location"] == warehouse
+            if item["location"] == location
         ]
-        future_data = predict_temperature(warehouse_data)
+        future_data = predict_temperature(location_data)
         for item in future_data:
-            item["location"] = warehouse
+            item["location"] = location
             # Convert Timestamp to ISO string and add 'Z' to denote UTC
             item["ds"] = item["ds"].isoformat() + "Z"
         predictions.extend(future_data)

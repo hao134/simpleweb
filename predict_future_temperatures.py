@@ -54,9 +54,9 @@ def insert_future_predictions_to_mongodb(predictions):
     db = client["sensor_data_db"]
     collection = db["future_temperature_data"]
 
-    # 刪除舊數據
+    ## 刪除舊數據
     #collection.delete_many({})
-    print("Old future data deleted")
+    #print("Old future data deleted")
 
     # 插入新數據
     collection.insert_many(predictions)

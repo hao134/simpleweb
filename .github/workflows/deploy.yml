@@ -89,19 +89,19 @@ jobs:
     #   run:
     #     scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
     
-    # # 在EC2上生成假溫度數據
-    # - name: Generate new temperature data on EC2
-    #   run: |
-    #     python generate_faked_data.py &&
-    #     echo 'Generated new temperature data'
+    # 在EC2上生成假溫度數據
+    - name: Generate new temperature data on EC2
+      run: |
+        python generate_faked_data.py &&
+        echo 'Generated new temperature data'
 
-    # # 在EC2上生成真溫度數據
-    # - name: Generate new temperature data on EC2
-    #   env:
-    #     OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
-    #   run: |
-    #     python getrealtemp.py &&
-    #     echo 'Get new temperature data'
+    # 在EC2上生成真溫度數據
+    - name: Generate new temperature data on EC2
+      env:
+        OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
+      run: |
+        python getrealtemp.py &&
+        echo 'Get new temperature data'
         
     # 更新 MondoDB 數據
     - name: Update MongoDB with JSON data
@@ -125,21 +125,21 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas prophet pymongo pytz
     
-    # # 從 MongoDB 獲取假數據並生成未來預測
-    # - name: Generate future faked data predictions using Prophet
-    #   env:
-    #     MONGODB_URI: ${{ secrets.MONGODB_URI }}
-    #   run: |
-    #     python predict_future_temperatures.py &&
-    #     echo 'Future predictions faked generated successfully'
+    # 從 MongoDB 獲取假數據並生成未來預測
+    - name: Generate future faked data predictions using Prophet
+      env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      run: |
+        python predict_future_temperatures.py &&
+        echo 'Future predictions faked generated successfully'
     
-    # # 從 MongoDB 獲取真實數據並生成未來預測
-    # - name: Generate future real data predictions using Prophet
-    #   env:
-    #     MONGODB_URI: ${{ secrets.MONGODB_URI }}
-    #   run: |
-    #     python predict_future_temperatures_real.py &&
-    #     echo 'Future predictions real generated successfully'
+    # 從 MongoDB 獲取真實數據並生成未來預測
+    - name: Generate future real data predictions using Prophet
+      env:
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      run: |
+        python predict_future_temperatures_real.py &&
+        echo 'Future predictions real generated successfully'
 
     # 保存日誌到 EC2
     - name: Save log file to EC2

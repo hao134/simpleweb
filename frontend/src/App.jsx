@@ -7,8 +7,9 @@ import { fetchTemperatureData, fetchFuturePredictions, fetchTemperaturerData, fe
 
 const App = () => {
   const [data, setData] = useState([]);
-  const [latestFutureData, setLatestFutureData] = useState([])
-  const [rdata, setrData] = useState([])
+  const [latestFutureData, setLatestFutureData] = useState([]);
+  const [rdata, setrData] = useState([]);
+  const [latestFuturerData, setLatestFururerData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [filteredrData, setFilteredrData] = useState([]);
   const [futureData, setFutureData] = useState([]); //預測數據
@@ -91,6 +92,27 @@ const App = () => {
       .catch((error) => {setError(error.message);});
   }, []);
 
+  // 重新計算最新批次
+  useEffect(() => {
+    if(!futurerData.length) {
+      setLatestFururerData([]);
+      return;
+    }
+
+    const validrFuture = futurerData.filter(d=>d.forecast_generated_at);
+    if (!validrFuture.length) {
+      setLatestFururerData([]);
+      return;
+    }
+    // 1.收集所有forecast_generated_at
+    const allBatches = [...new Set(validrFuture.map(d => d.forecast_generated_at))];
+    // 2.取最後ㄧ個(最新批次)
+    const latestBatch = allBatches.sort().pop();
+    // 3. 過濾出該批次資料
+    const filtered = validrFuture.filter(d => d.forecast_generated_at === latestBatch);
+    setLatestFururerData(filtered)
+  }, [futurerData])
+
   // 根據user選擇來過濾資料
   useEffect(() => {
     const filtered= rdata.filter((item) => {
@@ -171,9 +193,9 @@ const App = () => {
                 title="(Faked) Comparison: W1"
                 data={data.filter(d => d.location === "Warehouse 1")}
                 predictedData={futureData.filter(d => d.location === "Warehouse 1")}
-                backPast={30}  //真實資料往前顯示90筆
-                backPred={20}  //預測資料往前60筆
-                fwdPred={10}   //預測資料往後30筆
+                backPast={30}  //真實資料往前顯示30筆
+                backPred={20}  //預測資料往前20筆
+                fwdPred={10}   //預測資料往後10筆
               />
             </div>
             <div className="col-4 mt-5">
@@ -181,9 +203,9 @@ const App = () => {
                 title="(Faked) Comparison: W2"
                 data={data.filter(d => d.location === "Warehouse 2")}
                 predictedData={futureData.filter(d => d.location === "Warehouse 2")}
-                backPast={30}  //真實資料往前顯示90筆
-                backPred={20}  //預測資料往前60筆
-                fwdPred={10}   //預測資料往後30筆
+                backPast={30}  //真實資料往前顯示30筆
+                backPred={20}  //預測資料往前20筆
+                fwdPred={10}   //預測資料往後10筆
               />
             </div>
             <div className="col-4 mt-5">
@@ -191,9 +213,9 @@ const App = () => {
                 title="(Faked) Comparison: W3"
                 data={data.filter(d => d.location === "Warehouse 3")}
                 predictedData={futureData.filter(d => d.location === "Warehouse 3")}
-                backPast={30}  //真實資料往前顯示90筆
-                backPred={20}  //預測資料往前60筆
-                fwdPred={10}   //預測資料往後30筆
+                backPast={30}  //真實資料往前顯示30筆
+                backPred={20}  //預測資料往前20筆
+                fwdPred={10}   //預測資料往後10筆
               />
             </div>
           </div>
@@ -219,15 +241,44 @@ const App = () => {
                 historyLimit={102}
               />
             </div>
-            <div className="mt-5">
-              <div className="col-12">
-                <ChartDisplay 
-                  data={rdata} 
-                  futureData={futurerData} 
-                  title="Historical + Predictions (All Location)"
-                  historyLimit={36}  
-                />
-              </div>
+            <div className="mt-5 col-12">
+              <ChartDisplay 
+                data={rdata} 
+                futureData={latestFuturerData} 
+                title="Historical + Predictions (All Location)"
+                historyLimit={36}  
+              />
+            </div>
+            {/* 第三張圖(第一地點)*/}
+            <div className="col-4 mt-5">
+              <ComparisonChartDisplay
+                title="(Real) Comparison: 台北"
+                data={data.filter(d => d.location === "台北")}
+                predictedData={futureData.filter(d => d.location === "台北")}
+                backPast={30}  //真實資料往前顯示30筆
+                backPred={20}  //預測資料往前20筆
+                fwdPred={10}   //預測資料往後10筆
+              />
+            </div>
+            <div className="col-4 mt-5">
+              <ComparisonChartDisplay
+                title="(Real) Comparison: 高雄"
+                data={data.filter(d => d.location === "高雄")}
+                predictedData={futureData.filter(d => d.location === "高雄")}
+                backPast={30}  //真實資料往前顯示30筆
+                backPred={20}  //預測資料往前20筆
+                fwdPred={10}   //預測資料往後10筆
+              />
+            </div>
+            <div className="col-4 mt-5">
+              <ComparisonChartDisplay
+                title="(Real) Comparison: 玉山"
+                data={data.filter(d => d.location === "玉山")}
+                predictedData={futureData.filter(d => d.location === "玉山")}
+                backPast={30}  //真實資料往前顯示30筆
+                backPred={20}  //預測資料往前20筆
+                fwdPred={10}   //預測資料往後10筆
+              />
             </div>
           </div>
         </div>
