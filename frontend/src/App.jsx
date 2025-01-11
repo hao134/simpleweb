@@ -171,19 +171,19 @@ const App = () => {
                 title="(Faked) Comparison: W1"
                 data={data.filter(d => d.location === "Warehouse 1")}
                 predictedData={futureData.filter(d => d.location === "Warehouse 1")}
-                backPast={90}  //真實資料往前顯示90筆
-                backPred={60}  //預測資料往前60筆
-                fwdPred={30}   //預測資料往後30筆
+                backPast={30}  //真實資料往前顯示90筆
+                backPred={20}  //預測資料往前60筆
+                fwdPred={10}   //預測資料往後30筆
               />
             </div>
             <div className="col-12 mt-5">
               <ComparisonChartDisplay
                 title="(Faked) Comparison: W2"
                 data={data.filter(d => d.location === "Warehouse 2")}
-                predictedData={data.filter(d => d.location === "Warehouse 2")}
-                backPast={90}  //真實資料往前顯示90筆
-                backPred={60}  //預測資料往前60筆
-                fwdPred={30}   //預測資料往後30筆
+                predictedData={futureData.filter(d => d.location === "Warehouse 2")}
+                backPast={30}  //真實資料往前顯示90筆
+                backPred={20}  //預測資料往前60筆
+                fwdPred={10}   //預測資料往後30筆
               />
             </div>
             <div className="col-12 mt-5">
@@ -191,9 +191,9 @@ const App = () => {
                 title="(Faked) Comparison: W3"
                 data={data.filter(d => d.location === "Warehouse 3")}
                 predictedData={futureData.filter(d => d.location === "Warehouse 3")}
-                backPast={90}  //真實資料往前顯示90筆
-                backPred={60}  //預測資料往前60筆
-                fwdPred={30}   //預測資料往後30筆
+                backPast={30}  //真實資料往前顯示90筆
+                backPred={20}  //預測資料往前60筆
+                fwdPred={10}   //預測資料往後30筆
               />
             </div>
           </div>
