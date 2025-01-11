@@ -27,7 +27,7 @@ const ComparisonChartDisplay = ({
     data=[], 
     title, 
     predictedData = [], 
-    backReal = 90,
+    backPast = 90,
     backPred = 60,
     fwdPred = 30
 }) => {
@@ -45,15 +45,15 @@ const ComparisonChartDisplay = ({
 
     // 過去資料：只取[lastPastIndex - backPast + 1, last]
     // (代表最後一筆往前90筆)
-    const realStartIndex = Math.max(lastPastIndex - backReal + 1, 0);
-    const limitedData = sortedData.slice(realStartIndex, lastPredIndex + 1);
+    const pastStartIndex = Math.max(lastPastIndex - backPast + 1, 0);
+    const limitedData = sortedData.slice(pastStartIndex, lastPastIndex + 1);
 
     // 預測資料：先找「最接近lastPastTime」的索引=> 之後往前60/往後30
     let predCenterIndex = sortedPred.findIndex(
         (item) => new Date(item.timestamp) >= new Date(lastPastTime)
     )
 
-    // 如果找不到(代表預測資料全部都在lastRealTime之前)，就用最後一筆
+    // 如果找不到(代表預測資料全部都在lastPastTime之前)，就用最後一筆
     if (predCenterIndex < 0) {
         predCenterIndex = sortedPred.length -1;
     }
@@ -74,7 +74,7 @@ const ComparisonChartDisplay = ({
 
     // 建立 chartData 的兩條線
     // (先以一條線)
-    const realLine = {
+    const pastLine = {
         label: "Past Temperature",
         data: uniqueTimestamps.map((t) => {
             const match = limitedData.find((d) => d.timestamp === t);
@@ -97,7 +97,7 @@ const ComparisonChartDisplay = ({
 
     const chartData = {
         labels: uniqueTimestamps.map((t) => moment(t).format("YYYY-MM-DD HH:mm")),
-        datasets: [realLine, predLine]
+        datasets: [pastLine, predLine]
     };
 
     return (
