@@ -171,7 +171,9 @@ const App = () => {
                 title="(Faked) Comparison: Actual vs. Predicted"
                 data={data}
                 predictedData={futureData}
-                limit={90}
+                backReal={90}  //真實資料往前顯示90筆
+                backPred={60}  //預測資料往前60筆
+                fwdPred={30}   //預測資料往後30筆
               />
             </div>
           </div>
