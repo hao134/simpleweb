@@ -90,7 +90,7 @@ const ComparisonChartDisplay = ({
             const match = limitedPred.find((d) => d.timestamp === t);
             return match? parseFloat(match.temperature): null;
         }),
-        borderColor: "rgba(255, 0, 0, 1)", //red
+        borderColor: "rgba(0, 0, 255, 1)", //blue
         borderDash: [5, 5], //虛線
         fill: false 
     };
