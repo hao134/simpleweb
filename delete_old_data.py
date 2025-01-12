@@ -25,7 +25,7 @@ try:
     # 計算 3 天前的時間 (以本地時間)
     cutoff_time = datetime.now() - timedelta(days = 3)
 
-    for col_name in collection_to_clean:
+    for col_name in collections_to_clean:
         collection = db[col_name]
 
         # 執行刪除
