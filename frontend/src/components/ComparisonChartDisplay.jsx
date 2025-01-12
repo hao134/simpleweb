@@ -76,7 +76,7 @@ const ComparisonChartDisplay = ({
         }
       }
       return best; // 可能null
-    }).filter(Boolean); 過濾掉空值
+    }).filter(Boolean); //過濾掉空值
 
     // c. 排序 => 讓時間由就到新
     const limitedPred = [...samplePred].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
