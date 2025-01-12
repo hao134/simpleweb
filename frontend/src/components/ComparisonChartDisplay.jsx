@@ -31,7 +31,7 @@ const ComparisonChartDisplay = ({
     //backPred = 60,
     fwdPred = 30
 }) => {
-    if (!data.length && !predictedData.length) {
+    if (!data.length || !predictedData.length) {
       return <p>No data available for comparison</p>;
     }
 
