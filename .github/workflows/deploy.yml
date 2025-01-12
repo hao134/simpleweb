@@ -82,12 +82,12 @@ jobs:
         python -m pip install pymongo #安裝 pymongo
         python delete_old_data.py
     
-    # - name: Save delete log file to EC2
-    #   env:
-    #     EC2_USER: ${{ secrets.EC2_USER }}
-    #     EC2_HOST: ${{ secrets.EC2_HOST }}
-    #   run:
-    #     scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
+    - name: Save delete log file to EC2
+      env:
+        EC2_USER: ${{ secrets.EC2_USER }}
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+      run:
+        scp -i ~/.ssh/deploy_key delete_data.log $EC2_USER@$EC2_HOST:/home/ec2-user/simpleweb/logs/
     
     # 在EC2上生成假溫度數據
     - name: Generate new temperature data on EC2
