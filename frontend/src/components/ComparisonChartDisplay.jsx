@@ -28,7 +28,7 @@ const ComparisonChartDisplay = ({
     title, 
     predictedData = [], 
     backPast = 90,
-    backPred = 60,
+    //backPred = 60,
     fwdPred = 30
 }) => {
     if (!data.length && !predictedData.length) {
@@ -48,19 +48,38 @@ const ComparisonChartDisplay = ({
     const pastStartIndex = Math.max(lastPastIndex - backPast + 1, 0);
     const limitedData = sortedData.slice(pastStartIndex, lastPastIndex + 1);
 
-    // 預測資料：先找「最接近lastPastTime」的索引=> 之後往前60/往後30
-    let predCenterIndex = sortedPred.findIndex(
-        (item) => new Date(item.timestamp) >= new Date(lastPastTime)
-    )
+    // 【預測資料】改為「下採樣」方式：
+    //  a. 從lastPastTime 往前 10 小時 (20個30分鐘刻度)
+    //  b. 對於每個刻度，在sortedPred中找距離該刻度最接近的一筆
+    //  c. 排序後得到 limitedPred
 
-    // 如果找不到(代表預測資料全部都在lastPastTime之前)，就用最後一筆
-    if (predCenterIndex < 0) {
-        predCenterIndex = sortedPred.length -1;
+
+    // a. 準備目標時間刻度 (ex: 20 個 30 分鐘 => 10 小時)
+    const lastPastDate = new Date(lastPastTime);
+    const timeInterval = 30 * 60 * 1000; //30分鐘(毫秒)
+    let targetTimes = [];
+    for (let i = 0; i < 20; i++) {
+      // i=0 => lastPastTime自己， i=1 => lastPastTime - 30min, i=19 => lastPastTime - 9.5hr
+      const t = new Date(lastPastDate.getTime() - i * timeInterval);
+      targetTimes.push(t);
     }
-    // 以predCenterIndex 為中心 => 往前 60筆， 往後30筆
-    const predStartIndex = Math.max(predCenterIndex - backPred, 0);
-    const predEndIndex = Math.min(predCenterIndex + fwdPred, sortedPred.length -1);
-    const limitedPred = sortedPred.slice(predStartIndex, predEndIndex + 1);
+
+    // b. 對 predictedData 下採樣：對每個目標刻度 t, 找 sortedPred 中離 t最近的一筆
+    const samplePred = targetTimes.map(t => {
+      let best = null;
+      let bestDist = Infinity;
+      for (let item of sortedPred) {
+        const dist = Math.abs(new Date(item.timestamp) - t);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = item;
+        }
+      }
+      return best; // 可能null
+    }).filter(Boolean); 過濾掉空值
+
+    // c. 排序 => 讓時間由就到新
+    const limitedPred = [...samplePred].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
 
     // 合併 timestamps 供 X 軸顯示
     const allTimestamps = [
