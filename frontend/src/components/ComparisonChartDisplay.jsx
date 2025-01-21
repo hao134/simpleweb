@@ -136,7 +136,7 @@ const ComparisonChartDisplay = ({
                         title: { display: true, text: "Timestamp" },
                     },
                     y: {
-                        title: { display: true, text: "Timestamp (°C)"},
+                        title: { display: true, text: "Temperature (°C)"},
                         beginAtZero: true
                     }
                 }
